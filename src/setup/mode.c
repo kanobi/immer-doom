@@ -122,7 +122,7 @@ static void BindMiscVariables(void)
     if (gamemission == hexen)
     {
         M_BindStringVariable("savedir", &savedir);
-        M_BindIntVariable("messageson", &showMessages);
+        M_BindIntVariable("messages_on", &showMessages);
 
         // Hexen has a variable to control the savegame directory
         // that is used.

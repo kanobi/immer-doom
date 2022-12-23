@@ -1963,15 +1963,12 @@ static void SaveDefaultCollection(default_collection_t *collection)
 	        fprintf(f,"\"%s\"", *defaults[i].location.s);
                 break;
         }
-
         fprintf(f, "\n");
     }
-
     fclose (f);
 }
 
 // Parses integer values in the configuration file
-
 static int ParseIntParameter(const char *strparm)
 {
     int parm;

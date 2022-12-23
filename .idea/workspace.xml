@@ -137,8 +137,17 @@
   <component name="ChangeListManager">
     <list default="true" id="5dfe780b-a697-4785-b4c6-29938e83b26a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/doom/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/am_map.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/m_controls.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/m_controls.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/doom/m_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/m_menu.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heretic/mn_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/mn_menu.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heretic/p_inter.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/p_inter.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heretic/p_local.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/p_local.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hexen/h2_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/h2_main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hexen/h2def.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/h2def.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hexen/mn_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/mn_menu.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hexen/p_inter.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/p_inter.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/m_config.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/m_config.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/setup/mode.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/setup/mode.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/w_wad.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/w_wad.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,6 +208,7 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
@@ -955,7 +965,7 @@
       <option name="presentableId" value="Default" />
       <updated>1671738898502</updated>
       <workItem from="1671738899925" duration="6333000" />
-      <workItem from="1671787084838" duration="24490000" />
+      <workItem from="1671787084838" duration="35650000" />
     </task>
     <servers />
   </component>

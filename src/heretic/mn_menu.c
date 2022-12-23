@@ -122,7 +122,7 @@ void MN_LoadSlotText(void);
 
 boolean MenuActive;
 int InfoType;
-boolean messageson;
+boolean messages_on;
 
 // Private Data
 
@@ -297,7 +297,7 @@ void MN_Init(void)
 {
     InitFonts();
     MenuActive = false;
-    messageson = true;
+    messages_on = true;
     SkullBaseLump = W_GetNumForName(DEH_String("M_SKL00"));
 
     if (gamemode == retail)
@@ -690,14 +690,8 @@ static void DrawFileSlots(Menu_t * menu)
 
 static void DrawOptionsMenu(void)
 {
-    if (messageson)
-    {
-        MN_DrTextB(DEH_String("ON"), 196, 50);
-    }
-    else
-    {
-        MN_DrTextB(DEH_String("OFF"), 196, 50);
-    }
+    const char* message_string = messages_on ? DEH_String("ON") : DEH_String("OFF");
+    MN_DrTextB(message_string, 196, 50);
     DrawSlider(&OptionsMenu, 3, 10, mouseSensitivity);
 }
 
@@ -706,7 +700,6 @@ static void DrawOptionsMenu(void)
 // PROC DrawOptions2Menu
 //
 //---------------------------------------------------------------------------
-
 static void DrawOptions2Menu(void)
 {
     DrawSlider(&Options2Menu, 1, 9, screenblocks - 3);
@@ -719,13 +712,11 @@ static void DrawOptions2Menu(void)
 // PROC SCNetCheck
 //
 //---------------------------------------------------------------------------
-
 static boolean SCNetCheck(int option)
 {
     if (!netgame)
-    {                           // okay to go into the menu
-        return true;
-    }
+        return true; // okay to go into the menu
+
     switch (option)
     {
         case 1:
@@ -748,7 +739,6 @@ static boolean SCNetCheck(int option)
 // PROC SCQuitGame
 //
 //---------------------------------------------------------------------------
-
 static boolean SCQuitGame(int option)
 {
     MenuActive = false;
@@ -766,7 +756,6 @@ static boolean SCQuitGame(int option)
 // PROC SCEndGame
 //
 //---------------------------------------------------------------------------
-
 static boolean SCEndGame(int option)
 {
     if (demoplayback || netgame)
@@ -791,8 +780,8 @@ static boolean SCEndGame(int option)
 
 static boolean SCMessages(int option)
 {
-    messageson ^= 1;
-    if (messageson)
+    messages_on ^= 1;
+    if (messages_on)
     {
         P_SetMessage(&players[consoleplayer], DEH_String("MESSAGES ON"), true);
     }

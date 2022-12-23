@@ -262,7 +262,7 @@ extern mobj_t **blocklinks;     // for thing chains
 extern int maxammo[NUMAMMO];
 extern int clipammo[NUMAMMO];
 
-extern boolean messageson;
+extern boolean messages_on;
 
 
 void P_SetMessage(player_t * player, const char *message, boolean ultmsg);

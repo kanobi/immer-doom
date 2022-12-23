@@ -125,7 +125,7 @@ boolean ultimatemsg;
 
 void P_SetMessage(player_t * player, const char *message, boolean ultmsg)
 {
-    if ((ultimatemsg || !messageson) && !ultmsg)
+    if ((ultimatemsg || !messages_on) && !ultmsg)
     {
         return;
     }

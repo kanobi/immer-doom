@@ -129,7 +129,7 @@ void MN_LoadSlotText(void);
 
 boolean MenuActive;
 int InfoType;
-int messageson = true;
+int messages_on = true;
 boolean mn_SuicideConsole;
 
 // PRIVATE DATA DEFINITIONS ------------------------------------------------
@@ -313,7 +313,7 @@ void MN_Init(void)
 {
     InitFonts();
     MenuActive = false;
-//      messageson = true;              // Set by defaults in .CFG
+//      messages_on = true;              // Set by defaults in .CFG
     MauloBaseLump = W_GetNumForName("FBULA0");  // ("M_SKL00");
 }
 
@@ -759,7 +759,7 @@ static void DrawFileSlots(Menu_t * menu)
 
 static void DrawOptionsMenu(void)
 {
-    if (messageson)
+    if (messages_on)
     {
         MN_DrTextB("ON", 196, 50);
     }
@@ -832,8 +832,8 @@ static void SCEndGame(int option)
 
 static void SCMessages(int option)
 {
-    messageson ^= 1;
-    if (messageson)
+    messages_on ^= 1;
+    if (messages_on)
     {
         P_SetMessage(&players[consoleplayer], "MESSAGES ON", true);
     }

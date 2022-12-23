@@ -257,7 +257,6 @@ int W_NumLumps (void)
 // W_CheckNumForName
 // Returns -1 if name not found.
 //
-
 lumpindex_t W_CheckNumForName(const char *name)
 {
     lumpindex_t i;
