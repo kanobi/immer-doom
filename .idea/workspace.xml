@@ -136,15 +136,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dfe780b-a697-4785-b4c6-29938e83b26a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/doom/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/am_map.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/doom/doomdata.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/doomdata.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/doom/hu_stuff.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/hu_stuff.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heretic/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/am_map.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hexen/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/am_map.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strife/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/strife/am_map.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/strife/hu_stuff.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/strife/hu_stuff.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/m_controls.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/m_controls.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -961,7 +955,7 @@
       <option name="presentableId" value="Default" />
       <updated>1671738898502</updated>
       <workItem from="1671738899925" duration="6333000" />
-      <workItem from="1671787084838" duration="22756000" />
+      <workItem from="1671787084838" duration="24490000" />
     </task>
     <servers />
   </component>

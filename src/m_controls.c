@@ -14,21 +14,15 @@
 // GNU General Public License for more details.
 //
 
-#include <stdio.h>
-
-#include "doomtype.h"
 #include "doomkeys.h"
-
 #include "m_config.h"
 #include "m_misc.h"
 
 //
 // Keyboard controls
 //
-
 int key_right = KEY_RIGHTARROW;
 int key_left = KEY_LEFTARROW;
-
 int key_up = KEY_UPARROW;
 int key_down = KEY_DOWNARROW; 
 int key_strafeleft = ',';
@@ -41,15 +35,12 @@ int key_speed = KEY_RSHIFT;
 // 
 // Heretic keyboard controls
 //
- 
 int key_flyup = KEY_PGUP;
 int key_flydown = KEY_INS;
 int key_flycenter = KEY_HOME;
-
 int key_lookup = KEY_PGDN;
 int key_lookdown = KEY_DEL;
 int key_lookcenter = KEY_END;
-
 int key_invleft = '[';
 int key_invright = ']';
 int key_useartifact = KEY_ENTER;
@@ -68,9 +59,7 @@ int key_arti_morph = 0;
 //
 // Hexen key controls
 //
-
 int key_jump = '/';
-
 int key_arti_all             = KEY_BACKSPACE;
 int key_arti_health          = '\\';
 int key_arti_poisonbag       = '0';
@@ -88,7 +77,6 @@ int key_arti_invulnerability = '5';
 
 // Note: Strife also uses key_invleft, key_invright, key_jump, key_lookup, and
 // key_lookdown, but with different default values.
-
 int key_usehealth = 'h';
 int key_invquery  = 'q';
 int key_mission   = 'w';
@@ -99,25 +87,20 @@ int key_invend    = KEY_END;
 int key_invuse    = KEY_ENTER;
 int key_invdrop   = KEY_BACKSPACE;
 
-
 //
 // Mouse controls
 //
-
 int mousebfire = 0;
 int mousebstrafe = 1;
 int mousebforward = 2;
 int mousebspeed = 3;
-
 int mousebjump = -1;
-
 int mousebstrafeleft = -1;
 int mousebstraferight = -1;
 int mousebturnleft = -1;
 int mousebturnright = -1;
 int mousebbackward = -1;
 int mousebuse = -1;
-
 int mousebprevweapon = -1;
 int mousebnextweapon = -1;
 int mousebinvleft = -1;
@@ -130,12 +113,10 @@ int key_demo_quit = 'q';
 int key_spy = KEY_F12;
 
 // Multiplayer chat keys:
-
 int key_multi_msg = 't';
 int key_multi_msgplayer[8];
 
 // Weapon selection keys:
-
 int key_weapon1 = '1';
 int key_weapon2 = '2';
 int key_weapon3 = '3';
@@ -148,7 +129,6 @@ int key_prevweapon = 0;
 int key_nextweapon = 0;
 
 // Map control keys:
-
 int key_map_north     = KEY_UPARROW;
 int key_map_south     = KEY_DOWNARROW;
 int key_map_east      = KEY_RIGHTARROW;
@@ -163,7 +143,6 @@ int key_map_mark      = 'm';
 int key_map_clearmark = 'c';
 
 // menu keys:
-
 int key_menu_activate  = KEY_ESCAPE;
 int key_menu_up        = KEY_UPARROW;
 int key_menu_down      = KEY_DOWNARROW;
@@ -173,7 +152,6 @@ int key_menu_back      = KEY_BACKSPACE;
 int key_menu_forward   = KEY_ENTER;
 int key_menu_confirm   = 'y';
 int key_menu_abort     = 'n';
-
 int key_menu_help      = KEY_F1;
 int key_menu_save      = KEY_F2;
 int key_menu_load      = KEY_F3;
@@ -185,7 +163,6 @@ int key_menu_messages  = KEY_F8;
 int key_menu_qload     = KEY_F9;
 int key_menu_quit      = KEY_F10;
 int key_menu_gamma     = KEY_F11;
-
 int key_menu_incscreen = KEY_EQUALS;
 int key_menu_decscreen = KEY_MINUS;
 int key_menu_screenshot = 0;
@@ -193,32 +170,25 @@ int key_menu_screenshot = 0;
 //
 // Joystick controls
 //
-
 int joybfire = 0;
 int joybstrafe = 1;
 int joybuse = 3;
 int joybspeed = 2;
-
 int joybstrafeleft = -1;
 int joybstraferight = -1;
-
 int joybjump = -1;
-
 int joybprevweapon = -1;
 int joybnextweapon = -1;
-
 int joybmenu = -1;
 int joybautomap = -1;
 
 // Control whether if a mouse button is double clicked, it acts like 
 // "use" has been pressed
-
 int dclick_use = 1;
  
 // 
 // Bind all of the common controls used by Doom and all other games.
 //
-
 void M_BindBaseControls(void)
 {
     M_BindIntVariable("key_right",          &key_right);
@@ -231,22 +201,17 @@ void M_BindBaseControls(void)
     M_BindIntVariable("key_use",            &key_use);
     M_BindIntVariable("key_strafe",         &key_strafe);
     M_BindIntVariable("key_speed",          &key_speed);
-
     M_BindIntVariable("mouseb_fire",        &mousebfire);
     M_BindIntVariable("mouseb_strafe",      &mousebstrafe);
     M_BindIntVariable("mouseb_forward",     &mousebforward);
     M_BindIntVariable("mouseb_speed",       &mousebspeed);
-
     M_BindIntVariable("joyb_fire",          &joybfire);
     M_BindIntVariable("joyb_strafe",        &joybstrafe);
     M_BindIntVariable("joyb_use",           &joybuse);
     M_BindIntVariable("joyb_speed",         &joybspeed);
-
     M_BindIntVariable("joyb_menu_activate", &joybmenu);
     M_BindIntVariable("joyb_toggle_automap", &joybautomap);
-
     // Extra controls that are not in the Vanilla versions:
-
     M_BindIntVariable("joyb_strafeleft",     &joybstrafeleft);
     M_BindIntVariable("joyb_straferight",    &joybstraferight);
     M_BindIntVariable("mouseb_strafeleft",   &mousebstrafeleft);
@@ -265,19 +230,15 @@ void M_BindHereticControls(void)
     M_BindIntVariable("key_flyup",          &key_flyup);
     M_BindIntVariable("key_flydown",        &key_flydown);
     M_BindIntVariable("key_flycenter",      &key_flycenter);
-
     M_BindIntVariable("key_lookup",         &key_lookup);
     M_BindIntVariable("key_lookdown",       &key_lookdown);
     M_BindIntVariable("key_lookcenter",     &key_lookcenter);
-
     M_BindIntVariable("key_invleft",        &key_invleft);
     M_BindIntVariable("key_invright",       &key_invright);
     M_BindIntVariable("key_useartifact",    &key_useartifact);
-
     M_BindIntVariable("mouseb_invleft", &mousebinvleft);
     M_BindIntVariable("mouseb_invright", &mousebinvright);
     M_BindIntVariable("mouseb_useartifact", &mousebuseartifact);
-
     M_BindIntVariable("key_arti_quartz",        &key_arti_quartz);
     M_BindIntVariable("key_arti_urn",           &key_arti_urn);
     M_BindIntVariable("key_arti_bomb",          &key_arti_bomb);
@@ -295,7 +256,6 @@ void M_BindHexenControls(void)
     M_BindIntVariable("key_jump",           &key_jump);
     M_BindIntVariable("mouseb_jump",        &mousebjump);
     M_BindIntVariable("joyb_jump",          &joybjump);
-
     M_BindIntVariable("key_arti_all",             &key_arti_all);
     M_BindIntVariable("key_arti_health",          &key_arti_health);
     M_BindIntVariable("key_arti_poisonbag",       &key_arti_poisonbag);
@@ -310,20 +270,17 @@ void M_BindStrifeControls(void)
 {
     // These are shared with all games, but have different defaults:
     key_message_refresh = '/';
-
     // These keys are shared with Heretic/Hexen but have different defaults:
     key_jump     = 'a';
     key_lookup   = KEY_PGUP;
     key_lookdown = KEY_PGDN;
     key_invleft  = KEY_INS;
     key_invright = KEY_DEL;
-
     M_BindIntVariable("key_jump",           &key_jump);
     M_BindIntVariable("key_lookUp",         &key_lookup);
     M_BindIntVariable("key_lookDown",       &key_lookdown);
     M_BindIntVariable("key_invLeft",        &key_invleft);
     M_BindIntVariable("key_invRight",       &key_invright);
-
     // Custom Strife-only Keys:
     M_BindIntVariable("key_useHealth",      &key_usehealth);
     M_BindIntVariable("key_invquery",       &key_invquery);
@@ -334,7 +291,6 @@ void M_BindStrifeControls(void)
     M_BindIntVariable("key_invEnd",         &key_invend);
     M_BindIntVariable("key_invUse",         &key_invuse);
     M_BindIntVariable("key_invDrop",        &key_invdrop);
-
     // Strife also supports jump on mouse and joystick, and in the exact same
     // manner as Hexen!
     M_BindIntVariable("mouseb_jump",        &mousebjump);
@@ -351,13 +307,10 @@ void M_BindWeaponControls(void)
     M_BindIntVariable("key_weapon6",        &key_weapon6);
     M_BindIntVariable("key_weapon7",        &key_weapon7);
     M_BindIntVariable("key_weapon8",        &key_weapon8);
-
     M_BindIntVariable("key_prevweapon",     &key_prevweapon);
     M_BindIntVariable("key_nextweapon",     &key_nextweapon);
-
     M_BindIntVariable("joyb_prevweapon",    &joybprevweapon);
     M_BindIntVariable("joyb_nextweapon",    &joybnextweapon);
-
     M_BindIntVariable("mouseb_prevweapon",  &mousebprevweapon);
     M_BindIntVariable("mouseb_nextweapon",  &mousebnextweapon);
 }
@@ -389,7 +342,6 @@ void M_BindMenuControls(void)
     M_BindIntVariable("key_menu_forward",   &key_menu_forward);
     M_BindIntVariable("key_menu_confirm",   &key_menu_confirm);
     M_BindIntVariable("key_menu_abort",     &key_menu_abort);
-
     M_BindIntVariable("key_menu_help",      &key_menu_help);
     M_BindIntVariable("key_menu_save",      &key_menu_save);
     M_BindIntVariable("key_menu_load",      &key_menu_load);
@@ -401,7 +353,6 @@ void M_BindMenuControls(void)
     M_BindIntVariable("key_menu_qload",     &key_menu_qload);
     M_BindIntVariable("key_menu_quit",      &key_menu_quit);
     M_BindIntVariable("key_menu_gamma",     &key_menu_gamma);
-
     M_BindIntVariable("key_menu_incscreen", &key_menu_incscreen);
     M_BindIntVariable("key_menu_decscreen", &key_menu_decscreen);
     M_BindIntVariable("key_menu_screenshot",&key_menu_screenshot);
@@ -411,15 +362,13 @@ void M_BindMenuControls(void)
 
 void M_BindChatControls(unsigned int num_players)
 {
-    char name[32];  // haleyjd: 20 not large enough - Thank you, come again!
-    unsigned int i; // haleyjd: signedness conflict
-
+    char name[32];
     M_BindIntVariable("key_multi_msg",     &key_multi_msg);
 
-    for (i=0; i<num_players; ++i)
+    for (int player_idx=0; player_idx<num_players; ++player_idx)
     {
-        M_snprintf(name, sizeof(name), "key_multi_msgplayer%i", i + 1);
-        M_BindIntVariable(name, &key_multi_msgplayer[i]);
+        M_snprintf(name, sizeof(name), "key_multi_msgplayer%i", player_idx + 1);
+        M_BindIntVariable(name, &key_multi_msgplayer[player_idx]);
     }
 }
 
@@ -427,7 +376,6 @@ void M_BindChatControls(unsigned int num_players)
 // Apply custom patches to the default values depending on the
 // platform we are running on.
 //
-
 void M_ApplyPlatformDefaults(void)
 {
     // no-op. Add your platform-specific patches here.

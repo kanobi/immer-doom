@@ -1136,26 +1136,25 @@ void AM_drawPlayers(void)
     static int  their_colors[] = { GREENS, GRAYS, BROWNS, REDS };
     int         their_color = -1;
 
-
     if (!netgame)
     {
         if (cheating)
-            AM_drawLineCharacter
-                (cheat_player_arrow, arrlen(cheat_player_arrow),
-                 0,
-                 playerMain->mo->angle,
-                 WHITE,
-                 playerMain->mo->x,
-                 playerMain->mo->y);
+            AM_drawLineCharacter(
+                    cheat_player_arrow, arrlen(cheat_player_arrow),
+                    0,
+                    playerMain->mo->angle,
+                    WHITE,
+                    playerMain->mo->x,
+                    playerMain->mo->y);
         else
-            AM_drawLineCharacter
-                (player_arrow,
-                 arrlen(player_arrow),
-                 0,
-                 playerMain->mo->angle,
-                 WHITE,
-                 playerMain->mo->x,
-                 playerMain->mo->y);
+            AM_drawLineCharacter(
+                    player_arrow,
+                    arrlen(player_arrow),
+                    0,
+                    playerMain->mo->angle,
+                    WHITE,
+                    playerMain->mo->x,
+                    playerMain->mo->y);
         return;
     }
 
@@ -1172,34 +1171,33 @@ void AM_drawPlayers(void)
 
         color = current_player->powers[pw_invisibility] ? 246 : their_colors[their_color];
 
-        AM_drawLineCharacter
-            (player_arrow,
-             arrlen(player_arrow),
-             0,
-             current_player->mo->angle,
-             color,
-             current_player->mo->x,
-             current_player->mo->y);
+        AM_drawLineCharacter(
+                player_arrow,
+                 arrlen(player_arrow),
+                 0,
+                 current_player->mo->angle,
+                 color,
+                 current_player->mo->x,
+                 current_player->mo->y);
     }
-
 }
 
 void AM_drawThings (int colors, int colorrange)
 {
     mobj_t* t;
-    for (int i=0;i<numsectors;i++)
+    for (int sector_idx=0; sector_idx < numsectors; sector_idx++)
     {
-        t = sectors[i].thinglist;
+        t = sectors[sector_idx].thinglist;
         while (t)
         {
-            AM_drawLineCharacter
-                (thintriangle_guy,
-                 arrlen(thintriangle_guy),
-                 16<<FRACBITS,
-                 t->angle,
-                 colors+lightlev,
-                 t->x,
-                 t->y);
+            AM_drawLineCharacter(
+                    thintriangle_guy,
+                     arrlen(thintriangle_guy),
+                     16<<FRACBITS,
+                     t->angle,
+                     colors+lightlev,
+                     t->x,
+                     t->y);
             t = t->snext;
         }
     }
@@ -1208,18 +1206,16 @@ void AM_drawThings (int colors, int colorrange)
 void AM_drawMarks(void)
 {
     int fx, fy, w, h;
-    for (int i=0; i<AM_NUMMARKPOINTS; i++)
+    for (int markpoint_idx=0; markpoint_idx < AM_NUMMARKPOINTS; markpoint_idx++)
     {
-        if (markpoints[i].x != -1)
+        if (markpoints[markpoint_idx].x != -1)
         {
-            // w = SHORT(marknums[i]->width);
-            // h = SHORT(marknums[i]->height);
-            w = 5; // because something's wrong with the wad, i guess
-            h = 6; // because something's wrong with the wad, i guess
-            fx = CXMTOF(markpoints[i].x);
-            fy = CYMTOF(markpoints[i].y);
+            w = 5; // because something's wrong with the wad, markpoint_idx guess
+            h = 6; // because something's wrong with the wad, markpoint_idx guess
+            fx = CXMTOF(markpoints[markpoint_idx].x);
+            fy = CYMTOF(markpoints[markpoint_idx].y);
             if (fx >= f_x && fx <= f_w - w && fy >= f_y && fy <= f_h - h)
-                V_DrawPatch(fx, fy, marknums[i]);
+                V_DrawPatch(fx, fy, marknums[markpoint_idx]);
         }
     }
 

@@ -19,7 +19,6 @@
  
 extern int key_right;
 extern int key_left;
-
 extern int key_up;
 extern int key_down;
 extern int key_strafeleft;
@@ -28,9 +27,7 @@ extern int key_fire;
 extern int key_use;
 extern int key_strafe;
 extern int key_speed;
-
 extern int key_jump;
- 
 extern int key_flyup;
 extern int key_flydown;
 extern int key_flycenter;
@@ -51,10 +48,8 @@ extern int key_invhome;
 extern int key_invend;
 extern int key_invuse;
 extern int key_invdrop;
-
 extern int key_message_refresh;
 extern int key_pause;
-
 extern int key_multi_msg;
 extern int key_multi_msgplayer[8];
 
@@ -77,7 +72,6 @@ extern int key_arti_shadowsphere;
 extern int key_arti_wings;
 extern int key_arti_torch;
 extern int key_arti_morph;
-
 extern int key_arti_all;
 extern int key_arti_health;
 extern int key_arti_poisonbag;
@@ -106,7 +100,6 @@ extern int key_map_mark;
 extern int key_map_clearmark;
 
 // menu keys:
-
 extern int key_menu_activate;
 extern int key_menu_up;
 extern int key_menu_down;
@@ -116,7 +109,6 @@ extern int key_menu_back;
 extern int key_menu_forward;
 extern int key_menu_confirm;
 extern int key_menu_abort;
-
 extern int key_menu_help;
 extern int key_menu_save;
 extern int key_menu_load;
@@ -128,7 +120,6 @@ extern int key_menu_messages;
 extern int key_menu_qload;
 extern int key_menu_quit;
 extern int key_menu_gamma;
-
 extern int key_menu_incscreen;
 extern int key_menu_decscreen;
 extern int key_menu_screenshot;
@@ -137,16 +128,13 @@ extern int mousebfire;
 extern int mousebstrafe;
 extern int mousebforward;
 extern int mousebspeed;
-
 extern int mousebjump;
-
 extern int mousebstrafeleft;
 extern int mousebstraferight;
 extern int mousebturnleft;
 extern int mousebturnright;
 extern int mousebbackward;
 extern int mousebuse;
-
 extern int mousebprevweapon;
 extern int mousebnextweapon;
 extern int mousebinvleft;
@@ -157,18 +145,13 @@ extern int joybfire;
 extern int joybstrafe;
 extern int joybuse;
 extern int joybspeed;
-
 extern int joybjump;
-
 extern int joybstrafeleft;
 extern int joybstraferight;
-
 extern int joybprevweapon;
 extern int joybnextweapon;
-
 extern int joybmenu;
 extern int joybautomap;
-
 extern int dclick_use;
 
 void M_BindBaseControls(void);
