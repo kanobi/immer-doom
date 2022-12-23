@@ -682,9 +682,9 @@ AM_Responder
         {
             grid = !grid;
             if (grid)
-                plr->message = DEH_String(AMSTR_GRIDON);
+                playerMain->message = DEH_String(AMSTR_GRIDON);
             else
-                plr->message = DEH_String(AMSTR_GRIDOFF);
+                playerMain->message = DEH_String(AMSTR_GRIDOFF);
         }
         */
         else if (key == key_map_mark)
@@ -785,10 +785,10 @@ void AM_doFollowPlayer(void)
 	f_oldloc.x = plr->mo->x;
 	f_oldloc.y = plr->mo->y;
 
-	//  m_x = FTOM(MTOF(plr->mo->x - m_w/2));
-	//  m_y = FTOM(MTOF(plr->mo->y - m_h/2));
-	//  m_x = plr->mo->x - m_w/2;
-	//  m_y = plr->mo->y - m_h/2;
+	//  m_x = FTOM(MTOF(playerMain->mo->x - m_w/2));
+	//  m_y = FTOM(MTOF(playerMain->mo->y - m_h/2));
+	//  m_x = playerMain->mo->x - m_w/2;
+	//  m_y = playerMain->mo->y - m_h/2;
 
     }
 

@@ -599,10 +599,10 @@ void AM_doFollowPlayer(void)
 {
     if (f_oldloc.x != plr->mo->x || f_oldloc.y != plr->mo->y)
     {
-//  m_x = FTOM(MTOF(plr->mo->x - m_w/2));
-//  m_y = FTOM(MTOF(plr->mo->y - m_h/2));
-//  m_x = plr->mo->x - m_w/2;
-//  m_y = plr->mo->y - m_h/2;
+//  m_x = FTOM(MTOF(playerMain->mo->x - m_w/2));
+//  m_y = FTOM(MTOF(playerMain->mo->y - m_h/2));
+//  m_x = playerMain->mo->x - m_w/2;
+//  m_y = playerMain->mo->y - m_h/2;
         m_x = FTOM(MTOF(plr->mo->x)) - m_w / 2;
         m_y = FTOM(MTOF(plr->mo->y)) - m_h / 2;
         m_x2 = m_x + m_w;
@@ -610,8 +610,8 @@ void AM_doFollowPlayer(void)
 
         // do the parallax parchment scrolling.
 /*
-	 dmapx = (MTOF(plr->mo->x)-MTOF(f_oldloc.x)); //fixed point
-	 dmapy = (MTOF(f_oldloc.y)-MTOF(plr->mo->y));
+	 dmapx = (MTOF(playerMain->mo->x)-MTOF(f_oldloc.x)); //fixed point
+	 dmapy = (MTOF(f_oldloc.y)-MTOF(playerMain->mo->y));
 
 	 if(f_oldloc.x == INT_MAX) //to eliminate an error when the user first
 		dmapx=0;  //goes into the automap.

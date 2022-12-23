@@ -613,19 +613,19 @@ boolean AM_Responder(event_t * ev)
         else if (key == key_map_grid)
         {
             grid = !grid;
-            plr->message = grid ? AMSTR_GRIDON : AMSTR_GRIDOFF;
+            playerMain->message = grid ? AMSTR_GRIDON : AMSTR_GRIDOFF;
         }
         else if (key == key_map_mark)
         {
             M_snprintf(buffer, sizeof(buffer), "%s %d",
                        AMSTR_MARKEDSPOT, markpointnum);
-            plr->message = buffer;
+            playerMain->message = buffer;
             AM_addMark();
         }
         else if (key == key_map_clearmark)
         {
             AM_clearMarks();
-            plr->message = AMSTR_MARKSCLEARED;
+            playerMain->message = AMSTR_MARKSCLEARED;
         }
         */
         else
@@ -699,10 +699,10 @@ void AM_doFollowPlayer(void)
 {
     if (f_oldloc.x != plr->mo->x || f_oldloc.y != plr->mo->y)
     {
-//  m_x = FTOM(MTOF(plr->mo->x - m_w/2));
-//  m_y = FTOM(MTOF(plr->mo->y - m_h/2));
-//  m_x = plr->mo->x - m_w/2;
-//  m_y = plr->mo->y - m_h/2;
+//  m_x = FTOM(MTOF(playerMain->mo->x - m_w/2));
+//  m_y = FTOM(MTOF(playerMain->mo->y - m_h/2));
+//  m_x = playerMain->mo->x - m_w/2;
+//  m_y = playerMain->mo->y - m_h/2;
         m_x = FTOM(MTOF(plr->mo->x)) - m_w / 2;
         m_y = FTOM(MTOF(plr->mo->y)) - m_h / 2;
         m_x2 = m_x + m_w;
@@ -710,8 +710,8 @@ void AM_doFollowPlayer(void)
 
         // do the parallax parchment scrolling.
 /*
-	 dmapx = (MTOF(plr->mo->x)-MTOF(f_oldloc.x)); //fixed point
-	 dmapy = (MTOF(f_oldloc.y)-MTOF(plr->mo->y));
+	 dmapx = (MTOF(playerMain->mo->x)-MTOF(f_oldloc.x)); //fixed point
+	 dmapy = (MTOF(f_oldloc.y)-MTOF(playerMain->mo->y));
 
 	 if(f_oldloc.x == INT_MAX) //to eliminate an error when the user first
 		dmapx=0;  //goes into the automap.
@@ -1407,7 +1407,7 @@ void AM_drawPlayers(void)
     {
         /*
            if (cheating) AM_drawLineCharacter(cheat_player_arrow, NUMCHEATPLYRLINES, 0,
-           plr->mo->angle, WHITE, plr->mo->x, plr->mo->y);
+           playerMain->mo->angle, WHITE, playerMain->mo->x, playerMain->mo->y);
          *///cheat key player pointer is the same as non-cheat pointer..
 
         AM_drawLineCharacter(player_arrow, NUMPLYRLINES, 0, plr->mo->angle,

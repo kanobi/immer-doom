@@ -682,7 +682,7 @@ boolean HU_Responder(event_t *ev)
 		HU_queueChatChar(c);
 
 		// M_snprintf(buf, sizeof(buf), "KEY: %d => %d", ev->data1, c);
-		//        plr->message = buf;
+		//        playerMain->message = buf;
 	    }
 	    if (c == KEY_ENTER)
 	    {

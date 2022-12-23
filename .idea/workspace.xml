@@ -136,7 +136,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dfe780b-a697-4785-b4c6-29938e83b26a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/doom/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/am_map.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/doom/doomdata.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/doomdata.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/doom/hu_stuff.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/hu_stuff.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heretic/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/am_map.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hexen/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/am_map.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/strife/am_map.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/strife/am_map.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/strife/hu_stuff.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/strife/hu_stuff.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,6 +201,7 @@
     <option name="minorVersion" value="3.1" />
   </component>
   <component name="ProjectId" id="2JHdMupRgpqV5fh7rhwDdLZWGec" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -203,25 +212,26 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "cf.advertisement.text.has.clang-format": "true",
     "cf.advertisement.text.overridden": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "/home/robin/Documents/DoomSource",
+    "last_opened_file_path": "/home/robin/Documents/DoomSource/src/chocolate-doom",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "Errors",
+    "settings.editor.selected.configurable": "CLionExternalConfigurable",
     "settings.editor.splitter.proportion": "0.27079567",
     "structure.view.defaults.are.configured": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Makefile Application.install">
+  <component name="RunManager" selected="Shell Script.DOOM">
     <configuration name="AUTHORS" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="DoomSource" TARGET_NAME="AUTHORS" CONFIG_NAME="AUTHORS" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
@@ -807,6 +817,21 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DOOM" type="ShConfigurationType">
+      <option name="SCRIPT_TEXT" value="chocolate-doom -iwad $PROJECT_DIR$/../DOOM.WAD" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/src/chocolate-doom" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="false" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Makefile Application.all" />
       <item itemvalue="Makefile Application.all-am" />
@@ -924,6 +949,7 @@
       <item itemvalue="Makefile Application.maintainer-clean-am" />
       <item itemvalue="Makefile Application.mostlyclean-am" />
       <item itemvalue="Makefile Application.stamp-h1" />
+      <item itemvalue="Shell Script.DOOM" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -935,7 +961,7 @@
       <option name="presentableId" value="Default" />
       <updated>1671738898502</updated>
       <workItem from="1671738899925" duration="6333000" />
-      <workItem from="1671787084838" duration="15391000" />
+      <workItem from="1671787084838" duration="22756000" />
     </task>
     <servers />
   </component>
@@ -951,6 +977,17 @@
         <option value="Default.Subject" />
         <option value="Space.CommitStatus" />
       </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
     </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">

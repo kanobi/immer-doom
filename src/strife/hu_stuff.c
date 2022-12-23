@@ -403,7 +403,7 @@ void HU_Ticker(void)
         if ((plr->message && !message_nottobefuckedwith)
             || (plr->message && message_dontfuckwithme))
         {
-            //HUlib_addMessageToSText(&w_message, 0, plr->message);
+            //HUlib_addMessageToSText(&w_message, 0, playerMain->message);
             HU_addMessage(NULL, plr->message); // haleyjd [STRIFE]
             plr->message = 0;
             message_on = true;
