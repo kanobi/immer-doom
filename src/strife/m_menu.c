@@ -169,7 +169,7 @@ void M_ReadThis(int choice);
 void M_ReadThis2(int choice);
 void M_ReadThis3(int choice); // [STRIFE]
 
-//void M_ChangeMessages(int choice); [STRIFE]
+//void M_ToggleMessages(int choice); [STRIFE]
 void M_ChangeSensitivity(int choice);
 void M_SfxVol(int choice);
 void M_VoiceVol(int choice); // [STRIFE]
@@ -1177,7 +1177,7 @@ void M_ChangeShowText(void)
 //
 // [STRIFE] Messages cannot be disabled in Strife
 /*
-void M_ChangeMessages(int choice)
+void M_ToggleMessages(int choice)
 {
     // warning: unused parameter `int choice'
     choice = 0;
@@ -2059,7 +2059,7 @@ boolean M_Responder (event_t* ev)
         }
         else if (key == key_menu_messages) // Toggle messages
         {
-            //M_ChangeMessages(0);
+            //M_ToggleMessages(0);
             M_ChangeShowText(); // [STRIFE]
             S_StartSound(NULL, sfx_swtchn);
             return true;

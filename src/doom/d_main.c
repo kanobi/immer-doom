@@ -86,39 +86,40 @@
 //  calls all ?_Responder, ?_Ticker, and ?_Drawer,
 //  calls I_GetTime, I_StartFrame, and I_StartTic
 //
-void D_DoomLoop (void);
-static char *gamedescription;
-
-// Location where savegames are stored
-char *          savegamedir;
-// location of IWAD and WAD files
-char *          iwadfile;
-
-boolean         devparm;        // started game with -devparm
-boolean         nomonsters;        // checkparm of -nomonsters
-boolean         respawnparm;        // checkparm of -respawn
-boolean         fastparm;        // checkparm of -fast
-
-skill_t         startskill;
-int             startepisode;
-int             startmap;
-boolean         autostart;
-int             startloadgame;
-
-boolean         advancedemo;
-// Store demo, do not accept any inputs
-boolean         storedemo;
-
-// If true, the main game loop has started.
-boolean         main_loop_started = false;
-
-//char          wadfile[1024];        // primary wad file
-char            mapdir[1024];           // directory of development maps
-int             show_endoom = 1;
-int             show_diskicon = 1;
-
+void D_DoomLoop(void);
 void D_ConnectNetGame(void);
 void D_CheckNetGame(void);
+
+
+static char *gamedescription;
+
+char *          savegamedir;    // Location where savegames are stored
+char *          iwadfile;       // location of IWAD and WAD files
+
+boolean         devparm;        // started game with -devparm
+boolean         nomonsters;     // checkparm of -nomonsters
+boolean         respawnparm;    // checkparm of -respawn
+boolean         fastparm;       // checkparm of -fast
+
+int             startepisode;
+int             startmap;
+int             startloadgame;
+skill_t         startskill;
+boolean         autostart;
+
+boolean         advancedemo;
+boolean         storedemo;      // Store demo, do not accept any inputs
+
+int             show_endoom = 1;
+int             show_diskicon = 1;
+boolean         main_loop_started = false; // If true, the main game loop has started.
+
+// wipegamestate can be set to -1 to force a wipe on the next draw
+gamestate_t wipegamestate = GS_DEMOSCREEN;
+
+// char wadfile[1024]; // primary wad file
+// char mapdir[1024]; // directory of development maps
+
 
 //
 // D_ProcessEvents
@@ -140,9 +141,6 @@ void D_ProcessEvents (void)
     }
 }
 
-
-// wipegamestate can be set to -1 to force a wipe on the next draw
-gamestate_t wipegamestate = GS_DEMOSCREEN;
 
 //
 // D_Display
@@ -214,10 +212,7 @@ boolean D_Display (void)
         D_PageDrawer();
         break;
     }
-    
-    // draw buffered stuff to screen
-    // I_UpdateNoBlit();
-    
+
     // draw the view directly
     if (gamestate == GS_LEVEL && !automapactive && gametic)
     {
@@ -286,8 +281,8 @@ boolean D_Display (void)
     }
 
     // menus go directly to the screen
-    M_Drawer();     // menu is drawn even on top of everything
-    NetUpdate();    // send out any new accumulation
+    M_Drawer();  // menu is drawn even on top of everything
+    NetUpdate(); // send out any new accumulation
     return wipe;
 }
 
@@ -315,8 +310,6 @@ static void EnableLoadingDisk(void)
 //
 // Add configuration file variable bindings.
 //
-
-
 static const char * const chat_macro_defaults[10] =
 {
     HUSTR_CHATMACRO0,
@@ -334,8 +327,6 @@ static const char * const chat_macro_defaults[10] =
 
 void D_BindVariables(void)
 {
-    int i;
-
     M_ApplyPlatformDefaults();
 
     I_BindInputVariables();
@@ -370,7 +361,7 @@ void D_BindVariables(void)
 
     // Multiplayer chat macros
 
-    for (i=0; i<10; ++i)
+    for (int i=0; i<10; ++i)
     {
         char buf[12];
 
@@ -389,17 +380,14 @@ void D_BindVariables(void)
 boolean D_GrabMouseCallback(void)
 {
     // Drone players don't need mouse focus
-
     if (drone)
         return false;
 
-    // when menu is active or game is paused, release the mouse 
- 
+    // when menu is active or game is paused, release the mouse
     if (menuactive || paused)
         return false;
 
     // only grab mouse when playing levels (but not demos)
-
     return (gamestate == GS_LEVEL) && !demoplayback && !advancedemo;
 }
 
@@ -424,13 +412,11 @@ void D_RunFrame()
 
         wipestart = nowtime;
         wipe = !wipe_ScreenWipe(wipe_Melt, 0, 0, SCREENWIDTH, SCREENHEIGHT, tics);
-        I_UpdateNoBlit();
         M_Drawer();                            // menu is drawn even on top of wipes
         I_FinishUpdate();                      // page flip or blit buffer
         return;
     }
 
-    I_StartFrame(); // frame syncronous IO operations
     TryRunTics(); // will run at least one tic
     S_UpdateSounds (players[consoleplayer].mo); // move positional sounds
 
@@ -553,65 +539,70 @@ void D_DoAdvanceDemo (void)
     // includes a fixed executable.
 
     if (gameversion == exe_ultimate || gameversion == exe_final)
-      demosequence = (demosequence+1)%7;
+        demosequence = (demosequence+1)%7;
     else
-      demosequence = (demosequence+1)%6;
+        demosequence = (demosequence+1)%6;
     
     switch (demosequence)
     {
-      case 0:
-        if ( gamemode == commercial )
-            pagetic = TICRATE * 11;
-        else
-            pagetic = 170;
-        gamestate = GS_DEMOSCREEN;
-        pagename = DEH_String("TITLEPIC");
-        if ( gamemode == commercial )
-          S_StartMusic(mus_dm2ttl);
-        else
-          S_StartMusic (mus_intro);
-        break;
-      case 1:
-        G_DeferedPlayDemo(DEH_String("demo1"));
-        break;
-      case 2:
-        pagetic = 200;
-        gamestate = GS_DEMOSCREEN;
-        pagename = DEH_String("CREDIT");
-        break;
-      case 3:
-        G_DeferedPlayDemo(DEH_String("demo2"));
-        break;
-      case 4:
-        gamestate = GS_DEMOSCREEN;
-        if (gamemode == commercial)
-        {
-            pagetic = TICRATE * 11;
-            pagename = DEH_String("TITLEPIC");
-            S_StartMusic(mus_dm2ttl);
-        }
-        else
-        {
-            pagetic = 200;
-            if (gameversion >= exe_ultimate)
-                pagename = DEH_String("CREDIT");
+        case 0:
+            if (gamemode == commercial)
+                pagetic = TICRATE * 11;
             else
-                pagename = DEH_String("HELP2");
-        }
-        break;
-      case 5:
-        G_DeferedPlayDemo(DEH_String("demo3"));
-        break;
-        // THE DEFINITIVE DOOM Special Edition demo
-      case 6:
-        G_DeferedPlayDemo(DEH_String("demo4"));
-        break;
+                pagetic = 170;
+
+            gamestate = GS_DEMOSCREEN;
+            pagename = DEH_String("TITLEPIC");
+
+            if (gamemode == commercial)
+                S_StartMusic(mus_dm2ttl);
+            else
+                S_StartMusic (mus_intro);
+            break;
+        case 1:
+            G_DeferedPlayDemo(DEH_String("demo1"));
+            break;
+        case 2:
+            pagetic = 200;
+            gamestate = GS_DEMOSCREEN;
+            pagename = DEH_String("CREDIT");
+            break;
+        case 3:
+            G_DeferedPlayDemo(DEH_String("demo2"));
+            break;
+        case 4:
+            gamestate = GS_DEMOSCREEN;
+            if (gamemode == commercial)
+            {
+                pagetic = TICRATE * 11;
+                pagename = DEH_String("TITLEPIC");
+                S_StartMusic(mus_dm2ttl);
+            }
+            else
+            {
+                pagetic = 200;
+                if (gameversion >= exe_ultimate)
+                    pagename = DEH_String("CREDIT");
+                else
+                    pagename = DEH_String("HELP2");
+            }
+            break;
+        case 5:
+            G_DeferedPlayDemo(DEH_String("demo3"));
+            break;
+        case 6:
+            // THE DEFINITIVE DOOM Special Edition demo
+            G_DeferedPlayDemo(DEH_String("demo4"));
+            break;
+        default:
+            break;
     }
 
     // The Doom 3: BFG Edition version of doom2.wad does not have a
     // TITLETPIC lump. Use INTERPIC instead as a workaround.
-    if (gamevariant == bfgedition && !strcasecmp(pagename, "TITLEPIC")
-        && W_CheckNumForName("titlepic") < 0)
+    if (gamevariant == bfgedition &&
+        !strcasecmp(pagename, "TITLEPIC") &&
+        W_CheckNumForName("titlepic") < 0)
     {
         pagename = DEH_String("INTERPIC");
     }
@@ -1386,8 +1377,9 @@ void D_DoomMain (void)
     // @arg <x>
     // @vanilla
     //
-    // Turbo mode.  The player's speed is multiplied by x%. If unspecified,
-    // x defaults to 200.  Values are rounded up to 10 and down to 400.
+    // Turbo mode. The player's speed is multiplied by x%.
+    // If unspecified, x defaults to 200.
+    // Values are rounded up to 10 and down to 400.
     //
     if ( (arg_parameter=M_CheckParm ("-turbo")) )
     {
@@ -1759,8 +1751,7 @@ void D_DoomMain (void)
     // @arg [<x> <y> | <xy>]
     // @vanilla
     //
-    // Start a game immediately, warping to ExMy (Doom 1) or MAPxy
-    // (Doom 2)
+    // Start a game immediately, warping to ExMy (Doom 1) or MAPxy (Doom 2)
     //
     arg_parameter = M_CheckParmWithArgs("-warp", 1);
     if (arg_parameter)
@@ -1770,14 +1761,11 @@ void D_DoomMain (void)
         else
         {
             startepisode = myargv[arg_parameter+1][0]-'0';
+
             if (arg_parameter + 2 < myargc)
-            {
                 startmap = myargv[arg_parameter+2][0]-'0';
-            }
             else
-            {
                 startmap = 1;
-            }
         }
         autostart = true;
     }
@@ -1807,14 +1795,9 @@ void D_DoomMain (void)
     arg_parameter = M_CheckParmWithArgs("-loadgame", 1);
     
     if (arg_parameter)
-    {
         startloadgame = atoi(myargv[arg_parameter+1]);
-    }
     else
-    {
-        // Not loading a game
-        startloadgame = -1;
-    }
+        startloadgame = -1; // Not loading a game
 
     DEH_printf("M_Init: Init miscellaneous info.\n");
     M_Init ();
@@ -1844,6 +1827,7 @@ void D_DoomMain (void)
     // in the main loop.
     if (gamemode == commercial && W_CheckNumForName("map01") < 0)
         storedemo = true;
+
     if (M_CheckParmWithArgs("-statdump", 1))
     {
         I_AtExit(StatDump, true);
@@ -1863,24 +1847,28 @@ void D_DoomMain (void)
         G_RecordDemo (myargv[arg_parameter+1]);
         autostart = true;
     }
+
     arg_parameter = M_CheckParmWithArgs("-playdemo", 1);
     if (arg_parameter)
     {
-        singledemo = true;              // quit after one demo
+        singledemo = true;  // quit after one demo
         G_DeferedPlayDemo (demolumpname);
-        D_DoomLoop ();  // never returns
+        D_DoomLoop ();
     }
+
     arg_parameter = M_CheckParmWithArgs("-timedemo", 1);
     if (arg_parameter)
     {
         G_TimeDemo (demolumpname);
-        D_DoomLoop ();  // never returns
+        D_DoomLoop ();
     }
+
     if (startloadgame >= 0)
     {
         M_StringCopy(file, P_SaveGameFile(startloadgame), sizeof(file));
         G_LoadGame(file);
     }
+
     if (gameaction != ga_loadgame )
     {
         if (autostart || netgame)
@@ -1888,5 +1876,6 @@ void D_DoomMain (void)
         else
             D_StartTitle (); // start up intro loop                
     }
+
     D_DoomLoop ();  // never returns
 }

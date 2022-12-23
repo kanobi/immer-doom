@@ -56,7 +56,7 @@
 #include "m_menu.h"
 
 
-#define SKULLXOFF   -32
+#define SKULLXOFF   (-32)
 #define LINEHEIGHT  16
 
 //
@@ -73,11 +73,13 @@ int             messageToPrint;         // 1 = message to be printed
 const char     *messageString;          // ...and here is the message string!
 
 // message x & y
-int     message_x;
-int     message_y;
+// int     message_x, message_y;
 int     messageLastMenuActive;
-boolean messageNeedsInput; // timed message = no input from user
 void    (*messageRoutine)(int response);
+boolean messageNeedsInput; // timed message = no input from user
+
+// static const char *detailNames[2] = {"M_GDHIGH","M_GDLOW"};
+static const char *msgNames[2] = {"M_MSGOFF","M_MSGON"};
 
 char gammamsg[5][26] =
 {
@@ -155,7 +157,7 @@ static void M_ReadThis(int choice);
 static void M_ReadThis2(int choice);
 static void M_QuitDOOM(int choice);
 
-static void M_ChangeMessages(int choice);
+static void M_ToggleMessages(int choice);
 static void M_ChangeSensitivity(int choice);
 static void M_SfxVol(int choice);
 static void M_MusicVol(int choice);
@@ -310,14 +312,14 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {1, "M_ENDGAM", M_EndGame,              'e'},
-    {1, "M_MESSG",  M_ChangeMessages,       'm'},
+    {1, "M_ENDGAM", M_EndGame,           'e'},
+    {1, "M_MESSG",  M_ToggleMessages,    'm'},
     //{1, "M_DETAIL", M_ChangeDetail,         'g'},
-    {2, "M_SCRNSZ", M_SizeDisplay,          's'},
-    {-1,"",         0,                      '\0'},
-    {2, "M_MSENS",  M_ChangeSensitivity,    'm'},
-    {-1, "",        0,                      '\0'},
-    {1, "M_SVOL",   M_Sound,                's'}
+    {2, "M_SCRNSZ", M_SizeDisplay,       's'},
+    {-1,"",         0,                   '\0'},
+    {2, "M_MSENS",  M_ChangeSensitivity, 'm'},
+    {-1, "",        0,                   '\0'},
+    {1, "M_SVOL",   M_Sound,             's'}
 };
 
 menu_t  OptionsDef =
@@ -812,6 +814,8 @@ void M_SfxVol(int choice)
         if (sfxVolume < 15)
             sfxVolume++;
         break;
+    default:
+        break;
     }
     S_SetSfxVolume(sfxVolume * 8);
 }
@@ -827,6 +831,8 @@ void M_MusicVol(int choice)
     case 1:
         if (musicVolume < 15)
             musicVolume++;
+        break;
+    default:
         break;
     }
     S_SetMusicVolume(musicVolume * 8);
@@ -928,8 +934,6 @@ void M_Episode(int choice)
 //
 // M_Options
 //
-static const char *detailNames[2] = {"M_GDHIGH","M_GDLOW"};
-static const char *msgNames[2] = {"M_MSGOFF","M_MSGON"};
 void M_DrawOptions(void)
 {
     V_DrawPatchDirect(108, 15, W_CacheLumpName(DEH_String("M_OPTTTL"), PU_CACHE));
@@ -949,20 +953,17 @@ void M_Options(int choice)
 }
 
 
-
 //
 //      Toggle messages on/off
 //
-void M_ChangeMessages(int choice)
+void M_ToggleMessages(int choice)
 {
-    // warning: unused parameter `int choice'
-    choice = 0;
     showMessages = 1 - showMessages;
-    
     if (!showMessages)
         players[consoleplayer].message = DEH_String(MSGOFF);
     else
         players[consoleplayer].message = DEH_String(MSGON);
+
     message_dontfuckwithme = true;
 }
 
@@ -1216,9 +1217,11 @@ int M_StringHeight(const char* string)
 {
     int height = SHORT(hu_font[0]->height);   
     int h = height;
-    for (size_t i = 0;i < strlen(string);i++)
-    if (string[i] == '\n')
-        h += height;
+    for (size_t i = 0; i < strlen(string); i++)
+    {
+        if (string[i] == '\n')
+            h += height;
+    }
     return h;
 }
 
@@ -1226,11 +1229,7 @@ int M_StringHeight(const char* string)
 //
 //  Write a string using the hu_font
 //
-void
-M_WriteText
-( int        x,
-  int        y,
-  const char *string)
+void M_WriteText (int x, int y, const char *string)
 {
     const char *ch = string; 
     int cx = x;
@@ -1565,114 +1564,114 @@ boolean M_Responder (event_t* ev)
     // F-Keys
     if (!menuactive)
     {
-    if (key == key_menu_decscreen)      // Screen size down
+        if (key == key_menu_decscreen)      // Screen size down
         {
-        if (automapactive || chat_on)
-        return false;
-        M_SizeDisplay(0);
-        S_StartSound(NULL,sfx_stnmov);
-        return true;
-    }
+            if (automapactive || chat_on)
+                return false;
+            M_SizeDisplay(0);
+            S_StartSound(NULL,sfx_stnmov);
+            return true;
+        }
         else if (key == key_menu_incscreen) // Screen size up
         {
-        if (automapactive || chat_on)
-        return false;
-        M_SizeDisplay(1);
-        S_StartSound(NULL,sfx_stnmov);
-        return true;
-    }
+            if (automapactive || chat_on)
+                return false;
+            M_SizeDisplay(1);
+            S_StartSound(NULL,sfx_stnmov);
+            return true;
+        }
         else if (key == key_menu_help)     // Help key
         {
-        M_StartControlPanel ();
+            M_StartControlPanel ();
 
-        if (gameversion >= exe_ultimate)
-          currentMenu = &ReadDef2;
-        else
-          currentMenu = &ReadDef1;
+            if (gameversion >= exe_ultimate)
+              currentMenu = &ReadDef2;
+            else
+              currentMenu = &ReadDef1;
 
-        itemOn = 0;
-        S_StartSound(NULL,sfx_swtchn);
-        return true;
-    }
+            itemOn = 0;
+            S_StartSound(NULL,sfx_swtchn);
+            return true;
+        }
         else if (key == key_menu_save)     // Save
-        {
-        M_StartControlPanel();
-        S_StartSound(NULL,sfx_swtchn);
-        M_SaveGame(0);
-        return true;
-        }
+            {
+                M_StartControlPanel();
+                S_StartSound(NULL,sfx_swtchn);
+                M_SaveGame(0);
+                return true;
+            }
         else if (key == key_menu_load)     // Load
-        {
-        M_StartControlPanel();
-        S_StartSound(NULL,sfx_swtchn);
-        M_LoadGame(0);
-        return true;
-        }
+            {
+                M_StartControlPanel();
+                S_StartSound(NULL,sfx_swtchn);
+                M_LoadGame(0);
+                return true;
+            }
         else if (key == key_menu_volume)   // Sound Volume
-        {
-        M_StartControlPanel ();
-        currentMenu = &SoundDef;
-        itemOn = sfx_vol;
-        S_StartSound(NULL,sfx_swtchn);
-        return true;
-    }
-        else if (key == key_menu_detail)   // Detail toggle
-        {
-        M_ChangeDetail(0);
-        S_StartSound(NULL,sfx_swtchn);
-        return true;
+            {
+                M_StartControlPanel ();
+                currentMenu = &SoundDef;
+                itemOn = sfx_vol;
+                S_StartSound(NULL,sfx_swtchn);
+                return true;
         }
+        else if (key == key_menu_detail)   // Detail toggle
+            {
+                M_ChangeDetail(0);
+                S_StartSound(NULL,sfx_swtchn);
+                return true;
+            }
         else if (key == key_menu_qsave)    // Quicksave
         {
-        S_StartSound(NULL,sfx_swtchn);
-        M_QuickSave();
-        return true;
+            S_StartSound(NULL,sfx_swtchn);
+            M_QuickSave();
+            return true;
         }
-        else if (key == key_menu_endgame)  // End game
-        {
-        S_StartSound(NULL,sfx_swtchn);
-        M_EndGame(0);
-        return true;
+            else if (key == key_menu_endgame)  // End game
+            {
+            S_StartSound(NULL,sfx_swtchn);
+            M_EndGame(0);
+            return true;
         }
         else if (key == key_menu_messages) // Toggle messages
         {
-        M_ChangeMessages(0);
-        S_StartSound(NULL,sfx_swtchn);
-        return true;
+            M_ToggleMessages(0);
+            S_StartSound(NULL,sfx_swtchn);
+            return true;
         }
         else if (key == key_menu_qload)    // Quickload
-        {
-        S_StartSound(NULL,sfx_swtchn);
-        M_QuickLoad();
-        return true;
+            {
+            S_StartSound(NULL,sfx_swtchn);
+            M_QuickLoad();
+            return true;
         }
         else if (key == key_menu_quit)     // Quit DOOM
         {
-        S_StartSound(NULL,sfx_swtchn);
-        M_QuitDOOM(0);
-        return true;
+            S_StartSound(NULL,sfx_swtchn);
+            M_QuitDOOM(0);
+            return true;
         }
         else if (key == key_menu_gamma)    // gamma toggle
         {
-        usegamma++;
-        if (usegamma > 4)
-        usegamma = 0;
-        players[consoleplayer].message = DEH_String(gammamsg[usegamma]);
+            usegamma++;
+            if (usegamma > 4)
+                usegamma = 0;
+            players[consoleplayer].message = DEH_String(gammamsg[usegamma]);
             I_SetPalette (W_CacheLumpName (DEH_String("PLAYPAL"),PU_CACHE));
-        return true;
-    }
+            return true;
+        }
     }
 
     // Pop-up menu?
     if (!menuactive)
     {
-    if (key == key_menu_activate)
-    {
-        M_StartControlPanel ();
-        S_StartSound(NULL,sfx_swtchn);
-        return true;
-    }
-    return false;
+        if (key == key_menu_activate)
+        {
+            M_StartControlPanel ();
+            S_StartSound(NULL,sfx_swtchn);
+            return true;
+        }
+        return false;
     }
 
     // Keys usable within menu
@@ -1680,126 +1679,115 @@ boolean M_Responder (event_t* ev)
     if (key == key_menu_down)
     {
         // Move down to next item
-
         do
-    {
-        if (itemOn+1 > currentMenu->numitems-1)
-        itemOn = 0;
-        else itemOn++;
-        S_StartSound(NULL,sfx_pstop);
-    } while(currentMenu->menuitems[itemOn].status==-1);
-
-    return true;
+        {
+            if (itemOn+1 > currentMenu->numitems-1)
+                itemOn = 0;
+            else
+                itemOn++;
+            S_StartSound(NULL,sfx_pstop);
+        } while(currentMenu->menuitems[itemOn].status==-1);
+        return true;
     }
     else if (key == key_menu_up)
     {
         // Move back up to previous item
-
-    do
-    {
-        if (!itemOn)
-        itemOn = currentMenu->numitems-1;
-        else itemOn--;
-        S_StartSound(NULL,sfx_pstop);
-    } while(currentMenu->menuitems[itemOn].status==-1);
-
-    return true;
-    }
+        do
+        {
+            if (!itemOn)
+                itemOn = currentMenu->numitems-1;
+            else itemOn--;
+                S_StartSound(NULL, sfx_pstop);
+        } while(currentMenu->menuitems[itemOn].status==-1);
+            return true;
+        }
     else if (key == key_menu_left)
     {
         // Slide slider left
-
-    if (currentMenu->menuitems[itemOn].routine &&
-        currentMenu->menuitems[itemOn].status == 2)
-    {
-        S_StartSound(NULL,sfx_stnmov);
-        currentMenu->menuitems[itemOn].routine(0);
-    }
-    return true;
+        if (currentMenu->menuitems[itemOn].routine &&
+            currentMenu->menuitems[itemOn].status == 2)
+        {
+            S_StartSound(NULL,sfx_stnmov);
+            currentMenu->menuitems[itemOn].routine(0);
+        }
+        return true;
     }
     else if (key == key_menu_right)
     {
         // Slide slider right
-
-    if (currentMenu->menuitems[itemOn].routine &&
-        currentMenu->menuitems[itemOn].status == 2)
-    {
-        S_StartSound(NULL,sfx_stnmov);
-        currentMenu->menuitems[itemOn].routine(1);
-    }
-    return true;
+        if (currentMenu->menuitems[itemOn].routine &&
+            currentMenu->menuitems[itemOn].status == 2)
+        {
+            S_StartSound(NULL,sfx_stnmov);
+            currentMenu->menuitems[itemOn].routine(1);
+        }
+        return true;
     }
     else if (key == key_menu_forward)
     {
         // Activate menu item
-
-    if (currentMenu->menuitems[itemOn].routine &&
-        currentMenu->menuitems[itemOn].status)
-    {
-        currentMenu->lastOn = itemOn;
-        if (currentMenu->menuitems[itemOn].status == 2)
+        if (currentMenu->menuitems[itemOn].routine &&
+            currentMenu->menuitems[itemOn].status)
         {
-        currentMenu->menuitems[itemOn].routine(1);      // right arrow
-        S_StartSound(NULL,sfx_stnmov);
+            currentMenu->lastOn = itemOn;
+            if (currentMenu->menuitems[itemOn].status == 2)
+            {
+                // right arrow
+                currentMenu->menuitems[itemOn].routine(1);
+                S_StartSound(NULL,sfx_stnmov);
+            }
+            else
+            {
+                currentMenu->menuitems[itemOn].routine(itemOn);
+                S_StartSound(NULL,sfx_pistol);
+            }
         }
-        else
-        {
-        currentMenu->menuitems[itemOn].routine(itemOn);
-        S_StartSound(NULL,sfx_pistol);
-        }
-    }
-    return true;
+        return true;
     }
     else if (key == key_menu_activate)
     {
         // Deactivate menu
-
-    currentMenu->lastOn = itemOn;
-    M_ClearMenus ();
-    S_StartSound(NULL,sfx_swtchx);
-    return true;
-    }
+        currentMenu->lastOn = itemOn;
+        M_ClearMenus ();
+        S_StartSound(NULL,sfx_swtchx);
+        return true;
+        }
     else if (key == key_menu_back)
     {
         // Go back to previous menu
-
-    currentMenu->lastOn = itemOn;
-    if (currentMenu->prevMenu)
-    {
-        currentMenu = currentMenu->prevMenu;
-        itemOn = currentMenu->lastOn;
-        S_StartSound(NULL,sfx_swtchn);
+        currentMenu->lastOn = itemOn;
+        if (currentMenu->prevMenu)
+        {
+            currentMenu = currentMenu->prevMenu;
+            itemOn = currentMenu->lastOn;
+            S_StartSound(NULL,sfx_swtchn);
+        }
+        return true;
     }
-    return true;
-    }
-
-    // Keyboard shortcut?
-    // Vanilla Doom has a weird behavior where it jumps to the scroll bars
-    // when the certain keys are pressed, so emulate this.
-
     else if (ch != 0 || IsNullKey(key))
     {
-    for (i = itemOn+1;i < currentMenu->numitems;i++)
+        // Keyboard shortcut?
+        // Vanilla Doom has a weird behavior where it jumps to the scroll bars
+        // when the certain keys are pressed, so emulate this.
+        for (i = itemOn+1;i < currentMenu->numitems;i++)
+            {
+                if (currentMenu->menuitems[i].alphaKey == ch)
+                {
+                    itemOn = i;
+                    S_StartSound(NULL,sfx_pstop);
+                    return true;
+                }
+            }
+        for (i = 0;i <= itemOn;i++)
         {
-        if (currentMenu->menuitems[i].alphaKey == ch)
-        {
-        itemOn = i;
-        S_StartSound(NULL,sfx_pstop);
-        return true;
-        }
-        }
-
-    for (i = 0;i <= itemOn;i++)
-        {
-        if (currentMenu->menuitems[i].alphaKey == ch)
-        {
-        itemOn = i;
-        S_StartSound(NULL,sfx_pstop);
-        return true;
-        }
+            if (currentMenu->menuitems[i].alphaKey == ch)
+            {
+                itemOn = i;
+                S_StartSound(NULL,sfx_pstop);
+                return true;
+            }
         }
     }
-
     return false;
 }
 
@@ -1812,7 +1800,7 @@ void M_StartControlPanel (void)
 {
     // intro might call this repeatedly
     if (menuactive)
-    return;
+        return;
     
     menuactive = 1;
     currentMenu = &MainDef;         // JDC

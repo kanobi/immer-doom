@@ -80,121 +80,94 @@ static SDL_Rect blit_rect = {
 static uint32_t pixel_format;
 
 // palette
-
 static SDL_Color palette[256];
 static boolean palette_to_set;
 
 // display has been set up?
-
 static boolean initialized = false;
 
 // disable mouse?
-
 static boolean nomouse = false;
 int usemouse = 1;
 
 // Save screenshots in PNG format.
-
 int png_screenshots = 0;
 
 // SDL video driver name
-
 char *video_driver = "";
 
 // Window position:
-
 char *window_position = "center";
 
 // SDL display number on which to run.
-
 int video_display = 0;
 
 // Screen width and height, from configuration file.
-
-int window_width = 800;
-int window_height = 600;
+int window_width = 800, window_height = 600;
 
 // Fullscreen mode, 0x0 for SDL_WINDOW_FULLSCREEN_DESKTOP.
-
 int fullscreen_width = 0, fullscreen_height = 0;
 
 // Maximum number of pixels to use for intermediate scale buffer.
-
 static int max_scaling_buffer_pixels = 16000000;
 
 // Run in full screen mode?  (int type for config code)
-
 int fullscreen = true;
 
 // Aspect ratio correction mode
-
 int aspect_ratio_correct = true;
 static int actualheight;
 
 // Force integer scales for resolution-independent rendering
-
 int integer_scaling = false;
 
 // VGA Porch palette change emulation
-
 int vga_porch_flash = false;
 
 // Force software rendering, for systems which lack effective hardware
 // acceleration
-
 int force_software_renderer = false;
 
 // Time to wait for the screen to settle on startup before starting the
 // game (ms)
-
-static int startup_delay = 1000;
+static int startup_delay = 200;
 
 // Grab the mouse? (int type for config code). nograbmouse_override allows
 // this to be temporarily disabled via the command line.
-
 static int grabmouse = true;
 static boolean nograbmouse_override = false;
 
 // The screen buffer; this is modified to draw things to the screen
-
 pixel_t *I_VideoBuffer = NULL;
 
 // If true, game is running as a screensaver
-
 boolean screensaver_mode = false;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isnt visible, don't render the screen
-
 boolean screenvisible = true;
 
 // If true, we display dots at the bottom of the screen to 
 // indicate FPS.
-
 static boolean display_fps_dots;
 
 // If this is true, the screen is rendered but not blitted to the
 // video buffer.
-
 static boolean noblit;
 
 // Callback function to invoke to determine whether to grab the 
 // mouse pointer.
-
 static grabmouse_callback_t grabmouse_callback = NULL;
 
 // Does the window currently have focus?
-
 static boolean window_focused = true;
 
 // Window resize state.
-
 static boolean need_resize = false;
 static unsigned int last_resize_time;
 #define RESIZE_DELAY 500
 
 // Gamma correction level to use
-
 int usegamma = 0;
 
 // Joystick/gamepad hysteresis
@@ -204,6 +177,7 @@ unsigned int joywait = 0;
 static const unsigned int *icon_data;
 static int icon_w;
 static int icon_h;
+
 
 static boolean MouseShouldBeGrabbed()
 {
@@ -252,7 +226,6 @@ void I_SetGrabMouseCallback(grabmouse_callback_t func)
 }
 
 // Set the variable controlling FPS dots.
-
 void I_DisplayFPSDots(boolean dots_on)
 {
     display_fps_dots = dots_on;
@@ -274,23 +247,11 @@ void I_ShutdownGraphics(void)
     if (initialized)
     {
         SetShowCursor(true);
-
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
-
         initialized = false;
     }
 }
 
-
-
-//
-// I_StartFrame
-//
-void I_StartFrame (void)
-{
-    // er?
-
-}
 
 // Adjust window_width / window_height variables to be an an aspect
 // ratio consistent with the aspect_ratio_correct variable.
@@ -314,7 +275,6 @@ static void AdjustWindowSize(void)
 static void HandleWindowEvent(SDL_WindowEvent *event)
 {
     int i;
-
     switch (event->event)
     {
 #if 0 // SDL2-TODO
@@ -326,42 +286,33 @@ static void HandleWindowEvent(SDL_WindowEvent *event)
         case SDL_WINDOWEVENT_EXPOSED:
             palette_to_set = true;
             break;
-
         case SDL_WINDOWEVENT_RESIZED:
             need_resize = true;
             last_resize_time = SDL_GetTicks();
             break;
-
         // Don't render the screen when the window is minimized:
-
         case SDL_WINDOWEVENT_MINIMIZED:
             screenvisible = false;
             break;
-
         case SDL_WINDOWEVENT_MAXIMIZED:
         case SDL_WINDOWEVENT_RESTORED:
             screenvisible = true;
             break;
-
         // Update the value of window_focused when we get a focus event
         //
         // We try to make ourselves be well-behaved: the grab on the mouse
         // is removed if we lose focus (such as a popup window appearing),
         // and we dont move the mouse around if we aren't focused either.
-
         case SDL_WINDOWEVENT_FOCUS_GAINED:
             window_focused = true;
             break;
-
         case SDL_WINDOWEVENT_FOCUS_LOST:
             window_focused = false;
             break;
-
         // We want to save the user's preferred monitor to use for running the
         // game, so that next time we're run we start on the same display. So
         // every time the window is moved, find which display we're now on and
         // update the video_display config variable.
-
         case SDL_WINDOWEVENT_MOVED:
             i = SDL_GetWindowDisplayIndex(screen);
             if (i >= 0)
@@ -369,7 +320,6 @@ static void HandleWindowEvent(SDL_WindowEvent *event)
                 video_display = i;
             }
             break;
-
         default:
             break;
     }
@@ -388,7 +338,6 @@ static boolean ToggleFullScreenKeyShortcut(SDL_Keysym *sym)
 static void I_ToggleFullScreen(void)
 {
     unsigned int flags = 0;
-
     // TODO: Consider implementing fullscreen toggle for SDL_WINDOW_FULLSCREEN
     // (mode-changing) setup. This is hard because we have to shut down and
     // restart again.
@@ -396,16 +345,12 @@ static void I_ToggleFullScreen(void)
     {
         return;
     }
-
     fullscreen = !fullscreen;
-
     if (fullscreen)
     {
         flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
-
     SDL_SetWindowFullscreen(screen, flags);
-
     if (!fullscreen)
     {
         AdjustWindowSize();
@@ -416,9 +361,7 @@ static void I_ToggleFullScreen(void)
 void I_GetEvent(void)
 {
     SDL_Event sdlevent;
-
     SDL_PumpEvents();
-
     while (SDL_PollEvent(&sdlevent))
     {
         switch (sdlevent.type)
@@ -430,11 +373,9 @@ void I_GetEvent(void)
                     break;
                 }
                 // deliberate fall-though
-
             case SDL_KEYUP:
-		I_HandleKeyboardEvent(&sdlevent);
+		        I_HandleKeyboardEvent(&sdlevent);
                 break;
-
             case SDL_MOUSEBUTTONDOWN:
             case SDL_MOUSEBUTTONUP:
             case SDL_MOUSEWHEEL:
@@ -443,7 +384,6 @@ void I_GetEvent(void)
                     I_HandleMouseEvent(&sdlevent);
                 }
                 break;
-
             case SDL_QUIT:
                 if (screensaver_mode)
                 {
@@ -456,14 +396,12 @@ void I_GetEvent(void)
                     D_PostEvent(&event);
                 }
                 break;
-
             case SDL_WINDOWEVENT:
                 if (sdlevent.window.windowID == SDL_GetWindowID(screen))
                 {
                     HandleWindowEvent(&sdlevent.window);
                 }
                 break;
-
             default:
                 break;
         }
@@ -479,14 +417,11 @@ void I_StartTic (void)
     {
         return;
     }
-
     I_GetEvent();
-
     if (usemouse && !nomouse && window_focused)
     {
         I_ReadMouse();
     }
-
     if (joywait < I_GetTime())
     {
         I_UpdateJoystick();
@@ -494,35 +429,19 @@ void I_StartTic (void)
 }
 
 
-//
-// I_UpdateNoBlit
-//
-void I_UpdateNoBlit (void)
-{
-    // what is this?
-}
-
 static void UpdateGrab(void)
 {
     static boolean currently_grabbed = false;
     boolean grab;
-
     grab = MouseShouldBeGrabbed();
-
-    if (screensaver_mode)
+    if (screensaver_mode || (grab && !currently_grabbed))
     {
         // Hide the cursor in screensaver mode
-
-        SetShowCursor(false);
-    }
-    else if (grab && !currently_grabbed)
-    {
         SetShowCursor(false);
     }
     else if (!grab && currently_grabbed)
     {
         int screen_w, screen_h;
-
         SetShowCursor(true);
 
         // When releasing the mouse from grab, warp the mouse cursor to
@@ -530,12 +449,10 @@ static void UpdateGrab(void)
         // place for it to appear - we may only have released the grab
         // because we're at an end of level intermission screen, for
         // example.
-
         SDL_GetWindowSize(screen, &screen_w, &screen_h);
         SDL_WarpMouseInWindow(screen, screen_w - 16, screen_h - 16);
         SDL_GetRelativeMouseState(NULL, NULL);
     }
-
     currently_grabbed = grab;
 }
 
@@ -543,7 +460,6 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
 {
     SDL_RendererInfo rinfo;
     int orig_w, orig_h;
-
     orig_w = *w_upscale;
     orig_h = *h_upscale;
 
@@ -576,16 +492,15 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
     // depending on the hardware there may be performance problems with very
     // huge textures, so the user can use this to reduce the maximum texture
     // size if desired.
-
     if (max_scaling_buffer_pixels < SCREENWIDTH * SCREENHEIGHT)
     {
         I_Error("CreateUpscaledTexture: max_scaling_buffer_pixels too small "
                 "to create a texture buffer: %d < %d",
-                max_scaling_buffer_pixels, SCREENWIDTH * SCREENHEIGHT);
+                max_scaling_buffer_pixels,
+                SCREENWIDTH * SCREENHEIGHT);
     }
 
-    while (*w_upscale * *h_upscale * SCREENWIDTH * SCREENHEIGHT
-           > max_scaling_buffer_pixels)
+    while (*w_upscale * *h_upscale * SCREENWIDTH * SCREENHEIGHT > max_scaling_buffer_pixels)
     {
         if (*w_upscale > *h_upscale)
         {
@@ -601,9 +516,11 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
     {
         printf("CreateUpscaledTexture: Limited texture size to %dx%d "
                "(max %d pixels, max texture size %dx%d)\n",
-               *w_upscale * SCREENWIDTH, *h_upscale * SCREENHEIGHT,
+               *w_upscale * SCREENWIDTH,
+               *h_upscale * SCREENHEIGHT,
                max_scaling_buffer_pixels,
-               rinfo.max_texture_width, rinfo.max_texture_height);
+               rinfo.max_texture_width,
+               rinfo.max_texture_height);
     }
 }
 
@@ -630,25 +547,21 @@ static void CreateUpscaledTexture(boolean force)
     if (w * actualheight < h * SCREENWIDTH)
     {
         // Tall window.
-
         h = w * actualheight / SCREENWIDTH;
     }
     else
     {
         // Wide window.
-
         w = h * SCREENWIDTH / actualheight;
     }
 
     // Pick texture size the next integer multiple of the screen dimensions.
     // If one screen dimension matches an integer multiple of the original
     // resolution, there is no need to overscale in this direction.
-
     w_upscale = (w + SCREENWIDTH - 1) / SCREENWIDTH;
     h_upscale = (h + SCREENHEIGHT - 1) / SCREENHEIGHT;
 
     // Minimum texture dimensions of 320x200.
-
     if (w_upscale < 1)
     {
         w_upscale = 1;
@@ -661,7 +574,6 @@ static void CreateUpscaledTexture(boolean force)
     LimitTextureSize(&w_upscale, &h_upscale);
 
     // Create a new texture only if the upscale factors have actually changed.
-
     if (h_upscale == h_upscale_old && w_upscale == w_upscale_old && !force)
     {
         return;
@@ -673,7 +585,6 @@ static void CreateUpscaledTexture(boolean force)
     // Set the scaling quality for rendering the upscaled texture to "linear",
     // which looks much softer and smoother than "nearest" but does a better
     // job at downscaling from the upscaled texture to screen.
-
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
     new_texture = SDL_CreateTexture(renderer,
@@ -710,14 +621,12 @@ void I_FinishUpdate (void)
     {
         if (SDL_GetTicks() > last_resize_time + RESIZE_DELAY)
         {
-            int flags;
             // When the window is resized (we're not in fullscreen mode),
             // save the new window size.
-            flags = SDL_GetWindowFlags(screen);
+            Uint32 flags = SDL_GetWindowFlags(screen);
             if ((flags & SDL_WINDOW_FULLSCREEN_DESKTOP) == 0)
             {
                 SDL_GetWindowSize(screen, &window_width, &window_height);
-
                 // Adjust the window by resizing again so that the window
                 // is the right aspect ratio.
                 AdjustWindowSize();
@@ -745,18 +654,17 @@ void I_FinishUpdate (void)
 #endif
 
     // draws little dots on the bottom of the screen
-
     if (display_fps_dots)
     {
-	i = I_GetTime();
-	tics = i - lasttic;
-	lasttic = i;
-	if (tics > 20) tics = 20;
+        i = I_GetTime();
+        tics = i - lasttic;
+        lasttic = i;
+        if (tics > 20) tics = 20;
 
-	for (i=0 ; i<tics*4 ; i+=4)
-	    I_VideoBuffer[ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0xff;
-	for ( ; i<20*4 ; i+=4)
-	    I_VideoBuffer[ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0x0;
+        for (i=0 ; i<tics*4 ; i+=4)
+            I_VideoBuffer[ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0xff;
+        for ( ; i<20*4 ; i+=4)
+            I_VideoBuffer[ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0x0;
     }
 
     // Draw disk icon before blit, if necessary.
@@ -771,37 +679,31 @@ void I_FinishUpdate (void)
         {
             // "flash" the pillars/letterboxes with palette changes, emulating
             // VGA "porch" behaviour (GitHub issue #832)
-            SDL_SetRenderDrawColor(renderer, palette[0].r, palette[0].g,
-                palette[0].b, SDL_ALPHA_OPAQUE);
+            SDL_SetRenderDrawColor(renderer,
+                                   palette[0].r, palette[0].g, palette[0].b, SDL_ALPHA_OPAQUE);
         }
     }
 
     // Blit from the paletted 8-bit screen buffer to the intermediate
     // 32-bit RGBA buffer that we can load into the texture.
-
     SDL_LowerBlit(screenbuffer, &blit_rect, argbbuffer, &blit_rect);
 
     // Update the intermediate texture with the contents of the RGBA buffer.
-
     SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
 
     // Make sure the pillarboxes are kept clear each frame.
-
     SDL_RenderClear(renderer);
 
     // Render this intermediate texture into the upscaled texture
     // using "nearest" integer scaling.
-
     SDL_SetRenderTarget(renderer, texture_upscaled);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
 
     // Finally, render this upscaled texture to screen using linear scaling.
-
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
 
     // Draw!
-
     SDL_RenderPresent(renderer);
 
     // Restore background and undo the disk indicator, if it was drawn.
@@ -823,31 +725,25 @@ void I_ReadScreen (pixel_t* scr)
 //
 void I_SetPalette (byte *doompalette)
 {
-    int i;
-
-    for (i=0; i<256; ++i)
+    for (int i=0; i<256; ++i)
     {
         // Zero out the bottom two bits of each channel - the PC VGA
         // controller only supports 6 bits of accuracy.
-
         palette[i].r = gammatable[usegamma][*doompalette++] & ~3;
         palette[i].g = gammatable[usegamma][*doompalette++] & ~3;
         palette[i].b = gammatable[usegamma][*doompalette++] & ~3;
     }
-
     palette_to_set = true;
 }
 
 // Given an RGB value, find the closest matching palette index.
-
 int I_GetPaletteIndex(int r, int g, int b)
 {
     int best, best_diff, diff;
-    int i;
+    best = 0;
+    best_diff = INT_MAX;
 
-    best = 0; best_diff = INT_MAX;
-
-    for (i = 0; i < 256; ++i)
+    for (int i = 0; i < 256; ++i)
     {
         diff = (r - palette[i].r) * (r - palette[i].r)
              + (g - palette[i].g) * (g - palette[i].g)
@@ -871,7 +767,6 @@ int I_GetPaletteIndex(int r, int g, int b)
 // 
 // Set the window title
 //
-
 void I_SetWindowTitle(const char *title)
 {
     window_title = title;
@@ -881,7 +776,6 @@ void I_SetWindowTitle(const char *title)
 // Call the SDL function to set the window title, based on 
 // the title set with I_SetWindowTitle.
 //
-
 void I_InitWindowTitle(void)
 {
     char *buf;
@@ -899,11 +793,9 @@ void I_RegisterWindowIcon(const unsigned int *icon, int width, int height)
 }
 
 // Set the application icon
-
 void I_InitWindowIcon(void)
 {
     SDL_Surface *surface;
-
     surface = SDL_CreateRGBSurfaceFrom((void *) icon_data, icon_w, icon_h,
                                        32, icon_w * 4,
                                        0xffu << 24, 0xffu << 16,
@@ -914,11 +806,9 @@ void I_InitWindowIcon(void)
 }
 
 // Set video size to a particular scale factor (1x, 2x, 3x, etc.)
-
 static void SetScaleFactor(int factor)
 {
     // Pick 320x200 or 320x240, depending on aspect ratio correct
-
     window_width = factor * SCREENWIDTH;
     window_height = factor * actualheight;
     fullscreen = false;
@@ -934,7 +824,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Disable blitting the screen.
     //
-
     noblit = M_CheckParm ("-noblit");
 
     //!
@@ -942,7 +831,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Don't grab the mouse when running in windowed mode.
     //
-
     nograbmouse_override = M_ParmExists("-nograbmouse");
 
     // default to fullscreen mode, allow override with command line
@@ -953,7 +841,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Run in a window.
     //
-
     if (M_CheckParm("-window") || M_CheckParm("-nofullscreen"))
     {
         fullscreen = false;
@@ -964,7 +851,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Run in fullscreen mode.
     //
-
     if (M_CheckParm("-fullscreen"))
     {
         fullscreen = true;
@@ -975,7 +861,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Disable the mouse.
     //
-
     nomouse = M_CheckParm("-nomouse") > 0;
 
     //!
@@ -984,7 +869,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Specify the screen width, in pixels. Implies -window.
     //
-
     i = M_CheckParmWithArgs("-width", 1);
 
     if (i > 0)
@@ -999,7 +883,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Specify the screen height, in pixels. Implies -window.
     //
-
     i = M_CheckParmWithArgs("-height", 1);
 
     if (i > 0)
@@ -1014,7 +897,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Specify the dimensions of the window. Implies -window.
     //
-
     i = M_CheckParmWithArgs("-geometry", 1);
 
     if (i > 0)
@@ -1035,7 +917,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Don't scale up the screen. Implies -window.
     //
-
     if (M_CheckParm("-1")) 
     {
         SetScaleFactor(1);
@@ -1046,7 +927,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Double up the screen to 2x its normal size. Implies -window.
     //
-
     if (M_CheckParm("-2")) 
     {
         SetScaleFactor(2);
@@ -1057,7 +937,6 @@ void I_GraphicsCheckCommandLine(void)
     //
     // Double up the screen to 3x its normal size. Implies -window.
     //
-
     if (M_CheckParm("-3")) 
     {
         SetScaleFactor(3);
@@ -1065,13 +944,10 @@ void I_GraphicsCheckCommandLine(void)
 }
 
 // Check if we have been invoked as a screensaver by xscreensaver.
-
 void I_CheckIsScreensaver(void)
 {
     char *env;
-
     env = getenv("XSCREENSAVER_WINDOW");
-
     if (env != NULL)
     {
         screensaver_mode = true;
@@ -1082,11 +958,9 @@ static void SetSDLVideoDriver(void)
 {
     // Allow a default value for the SDL video driver to be specified
     // in the configuration file.
-
     if (strcmp(video_driver, "") != 0)
     {
         char *env_string;
-
         env_string = M_StringJoin("SDL_VIDEODRIVER=", video_driver, NULL);
         putenv(env_string);
         free(env_string);
@@ -1099,14 +973,13 @@ static void SetSDLVideoDriver(void)
 static void CenterWindow(int *x, int *y, int w, int h)
 {
     SDL_Rect bounds;
-
     if (SDL_GetDisplayBounds(video_display, &bounds) < 0)
     {
-        fprintf(stderr, "CenterWindow: Failed to read display bounds "
-                        "for display #%d!\n", video_display);
+        fprintf(stderr,
+                "CenterWindow: Failed to read display bounds for display #%d!\n",
+                video_display);
         return;
     }
-
     *x = bounds.x + SDL_max((bounds.w - w) / 2, 0);
     *y = bounds.y + SDL_max((bounds.h - h) / 2, 0);
 }
@@ -1120,13 +993,13 @@ void I_GetWindowPosition(int *x, int *y, int w, int h)
         fprintf(stderr,
                 "I_GetWindowPosition: We were configured to run on display #%d, "
                 "but it no longer exists (max %d). Moving to display 0.\n",
-                video_display, SDL_GetNumVideoDisplays() - 1);
+                video_display,
+                SDL_GetNumVideoDisplays() - 1);
         video_display = 0;
     }
 
     // in fullscreen mode, the window "position" still matters, because
     // we use it to control which display we run fullscreen on.
-
     if (fullscreen)
     {
         CenterWindow(x, y, w, h);
@@ -1135,7 +1008,6 @@ void I_GetWindowPosition(int *x, int *y, int w, int h)
 
     // in windowed mode, the desired window position can be specified
     // in the configuration file.
-
     if (window_position == NULL || !strcmp(window_position, ""))
     {
         *x = *y = SDL_WINDOWPOS_UNDEFINED;
@@ -1219,9 +1091,7 @@ static void SetVideoMode(void)
         }
 
         pixel_format = SDL_GetWindowPixelFormat(screen);
-
         SDL_SetWindowMinimumSize(screen, SCREENWIDTH, actualheight);
-
         I_InitWindowTitle();
         I_InitWindowIcon();
     }
@@ -1260,12 +1130,10 @@ static void SetVideoMode(void)
 
     // If we could not find a matching render driver,
     // try again without hardware acceleration.
-
     if (renderer == NULL && !force_software_renderer)
     {
         renderer_flags |= SDL_RENDERER_SOFTWARE;
         renderer_flags &= ~SDL_RENDERER_PRESENTVSYNC;
-
         renderer = SDL_CreateRenderer(screen, -1, renderer_flags);
 
         // If this helped, save the setting for later.
@@ -1293,18 +1161,15 @@ static void SetVideoMode(void)
     }
 
     // Force integer scales for resolution-independent rendering.
-
     SDL_RenderSetIntegerScale(renderer, integer_scaling);
 
     // Blank out the full screen area in case there is any junk in
     // the borders that won't otherwise be overwritten.
-
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 
     // Create the 8-bit paletted and the 32-bit RGBA screenbuffer surfaces.
-
     if (screenbuffer != NULL)
     {
         SDL_FreeSurface(screenbuffer);
@@ -1321,7 +1186,6 @@ static void SetVideoMode(void)
 
     // Format of argbbuffer must match the screen pixel format because we
     // import the surface data into the texture.
-
     if (argbbuffer != NULL)
     {
         SDL_FreeSurface(argbbuffer);
@@ -1346,13 +1210,11 @@ static void SetVideoMode(void)
     // Set the scaling quality for rendering the intermediate texture into
     // the upscaled texture to "nearest", which is gritty and pixelated and
     // resembles software scaling pretty well.
-
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
     // Create the intermediate texture that the RGBA surface gets loaded into.
     // The SDL_TEXTUREACCESS_STREAMING flag means that this texture's content
     // is going to change frequently.
-
     texture = SDL_CreateTexture(renderer,
                                 pixel_format,
                                 SDL_TEXTUREACCESS_STREAMING,
@@ -1371,7 +1233,6 @@ static void SetVideoMode(void)
 #endif
 
     // Initially create the upscaled texture for rendering to screen
-
     CreateUpscaledTexture(true);
 }
 
@@ -1384,7 +1245,6 @@ void I_InitGraphics(void)
     // Pass through the XSCREENSAVER_WINDOW environment variable to 
     // SDL_WINDOWID, to embed the SDL window into the Xscreensaver
     // window.
-
     env = getenv("XSCREENSAVER_WINDOW");
 
     if (env != NULL)
@@ -1394,7 +1254,6 @@ void I_InitGraphics(void)
 
         sscanf(env, "0x%x", &winid);
         M_snprintf(winenv, sizeof(winenv), "SDL_WINDOWID=%u", winid);
-
         putenv(winenv);
     }
 
@@ -1428,11 +1287,9 @@ void I_InitGraphics(void)
 
     // Start with a clear black screen
     // (screen will be flipped after we set the palette)
-
     SDL_FillRect(screenbuffer, NULL, 0);
 
     // Set the palette
-
     doompal = W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE);
     I_SetPalette(doompal);
     SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
@@ -1454,22 +1311,18 @@ void I_InitGraphics(void)
     // the 8-bit paletted screen buffer that gets blit on an intermediate
     // 32-bit RGBA screen buffer that gets loaded into a texture that gets
     // finally rendered into our window or full screen in I_FinishUpdate().
-
     I_VideoBuffer = screenbuffer->pixels;
     V_RestoreBuffer();
 
     // Clear the screen to black.
-
     memset(I_VideoBuffer, 0, SCREENWIDTH * SCREENHEIGHT * sizeof(*I_VideoBuffer));
 
     // clear out any events waiting at the start and center the mouse
-  
     while (SDL_PollEvent(&dummy));
 
     initialized = true;
 
     // Call I_ShutdownGraphics on quit
-
     I_AtExit(I_ShutdownGraphics, true);
 }
 

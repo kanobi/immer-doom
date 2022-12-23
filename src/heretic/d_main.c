@@ -246,9 +246,6 @@ void D_DoomLoop(void)
 
     while (1)
     {
-        // Frame syncronous IO operations
-        I_StartFrame();
-
         // Process one or more tics
         // Will run at least one tic
         TryRunTics();

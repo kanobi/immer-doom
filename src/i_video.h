@@ -22,9 +22,9 @@
 
 #include "doomtype.h"
 
-#define SCREENWIDTH  440 // 320 default
-#define SCREENHEIGHT 200
-#define SCREENHEIGHT_4_3 240  // Screen height used when aspect_ratio_correct=true.
+#define SCREENWIDTH       448 // 320 default
+#define SCREENHEIGHT_4_3  252 // 240 default; Screen height used when aspect_ratio_correct=true.
+#define SCREENHEIGHT      200
 
 typedef boolean (*grabmouse_callback_t)(void);
 
@@ -39,9 +39,7 @@ void I_ShutdownGraphics(void);
 void I_SetPalette (byte* palette);
 int I_GetPaletteIndex(int r, int g, int b);
 
-void I_UpdateNoBlit (void);
 void I_FinishUpdate (void);
-
 void I_ReadScreen (pixel_t* scr);
 void I_BeginRead (void);
 void I_SetWindowTitle(const char *title);
@@ -53,9 +51,6 @@ void I_InitWindowTitle(void);
 void I_RegisterWindowIcon(const unsigned int *icon, int width, int height);
 void I_InitWindowIcon(void);
 
-// Called before processing any tics in a frame (just after displaying a frame).
-// Time consuming syncronous operations are performed here (joystick reading).
-void I_StartFrame (void);
 // Called before processing each tic in a frame.
 // Quick syncronous operations are performed here.
 void I_StartTic (void);
