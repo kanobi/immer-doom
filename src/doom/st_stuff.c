@@ -20,9 +20,7 @@
 
 
 #include <stdio.h>
-#include <ctype.h>
 
-#include "i_system.h"
 #include "i_video.h"
 #include "z_zone.h"
 #include "m_misc.h"
@@ -36,7 +34,6 @@
 #include "st_stuff.h"
 #include "st_lib.h"
 #include "r_local.h"
-#include "p_local.h"
 #include "p_inter.h"
 #include "am_map.h"
 #include "m_cheat.h"

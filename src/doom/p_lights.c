@@ -22,9 +22,7 @@
 #include "z_zone.h"
 #include "m_random.h"
 
-#include "doomdef.h"
 #include "p_local.h"
-
 
 // State.
 #include "r_state.h"

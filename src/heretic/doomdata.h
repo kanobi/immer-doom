@@ -169,11 +169,11 @@ typedef PACKED_STRUCT (
 */
 
 // a pic is an unmasked block of pixels
-typedef struct
-{
-    byte width, height;
-    byte data;
-} pic_t;
+//typedef struct
+//{
+//    byte width, height;
+//    byte data;
+//} pic_t;
 
 
 

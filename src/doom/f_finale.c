@@ -19,19 +19,18 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#include <stdlib.h>
 
 // Functions.
 #include "deh_main.h"
-#include "i_system.h"
 #include "i_swap.h"
 #include "z_zone.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "s_sound.h"
-
 // Data.
+
 #include "d_main.h"
+#include "d_event.h"
 #include "dstrings.h"
 #include "sounds.h"
 
@@ -44,11 +43,6 @@ typedef enum
     F_STAGE_ARTSCREEN,
     F_STAGE_CAST,
 } finalestage_t;
-
-// ?
-//#include "doomstat.h"
-//#include "r_local.h"
-//#include "f_finale.h"
 
 // Stage of animation:
 finalestage_t finalestage;

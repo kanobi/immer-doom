@@ -16,18 +16,12 @@
 //
 
 
-
 #include <string.h>
 #include <stdlib.h>
-#include <math.h>
-
-#include "doomdef.h" 
-#include "doomkeys.h"
+#include "doomdef.h"
 #include "doomstat.h"
-
 #include "deh_main.h"
 #include "deh_misc.h"
-
 #include "z_zone.h"
 #include "f_finale.h"
 #include "m_argv.h"
@@ -39,34 +33,26 @@
 #include "i_timer.h"
 #include "i_input.h"
 #include "i_swap.h"
-#include "i_video.h"
-
 #include "p_setup.h"
 #include "p_saveg.h"
 #include "p_tick.h"
-
 #include "d_main.h"
-
 #include "wi_stuff.h"
 #include "hu_stuff.h"
 #include "st_stuff.h"
 #include "am_map.h"
 #include "statdump.h"
-
 // Needs access to LFB.
 #include "v_video.h"
 #include "w_wad.h"
 #include "p_local.h" 
 #include "s_sound.h"
-
 // Data.
 #include "dstrings.h"
 #include "sounds.h"
-
 // SKY handling - still the wrong place.
 #include "r_data.h"
 #include "r_sky.h"
-
 #include "g_game.h"
 
 #define SAVEGAMESIZE        0x2c000

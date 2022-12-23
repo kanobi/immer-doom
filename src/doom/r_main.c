@@ -20,7 +20,6 @@
 
 
 #include <stdlib.h>
-#include <math.h>
 
 #include "doomdef.h"
 #include "d_loop.h"

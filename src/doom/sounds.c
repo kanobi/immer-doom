@@ -18,16 +18,12 @@
 //
 
 
-#include <stdlib.h>
-
-
-#include "doomtype.h"
+#include <stddef.h>
 #include "sounds.h"
 
 //
 // Information about all the music
 //
-
 #define MUSIC(name) \
     { name, 0, NULL, NULL }
 

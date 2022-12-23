@@ -18,9 +18,7 @@
 
 
 #include "z_zone.h"
-#include "doomdef.h"
 #include "p_local.h"
-
 #include "s_sound.h"
 
 // State.
@@ -33,15 +31,12 @@
 //
 // CEILINGS
 //
-
-
 ceiling_t*	activeceilings[MAXCEILINGS];
 
 
 //
 // T_MoveCeiling
 //
-
 void T_MoveCeiling (ceiling_t* ceiling)
 {
     result_e	res;

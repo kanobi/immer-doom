@@ -17,14 +17,11 @@
 //	all OS independend parts.
 //
 
-#include <stdlib.h>
-
 #include "d_main.h"
 #include "m_argv.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "i_system.h"
-#include "i_timer.h"
 #include "i_video.h"
 #include "g_game.h"
 #include "doomdef.h"
@@ -33,7 +30,6 @@
 #include "w_wad.h"
 
 #include "deh_main.h"
-
 #include "d_loop.h"
 
 ticcmd_t *netcmds;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
-    <option name="GROUP_BY_SEVERITY" value="true" />
+    <option name="SPLITTER_PROPORTION" value="0.84053797" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -183,6 +183,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -932,7 +935,7 @@
       <option name="presentableId" value="Default" />
       <updated>1671738898502</updated>
       <workItem from="1671738899925" duration="6333000" />
-      <workItem from="1671787084838" duration="7134000" />
+      <workItem from="1671787084838" duration="15391000" />
     </task>
     <servers />
   </component>

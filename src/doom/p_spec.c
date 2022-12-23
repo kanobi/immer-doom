@@ -21,8 +21,6 @@
 //
 
 
-#include <stdlib.h>
-
 #include "doomdef.h"
 #include "doomstat.h"
 
@@ -33,12 +31,8 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "w_wad.h"
-
-#include "r_local.h"
 #include "p_local.h"
-
 #include "g_game.h"
-
 #include "s_sound.h"
 
 // State.
@@ -1081,13 +1075,12 @@ void P_PlayerInSpecialSector (player_t* player)
 	if (player->health <= 10)
 	    G_ExitLevel();
 	break;
-			
       default:
 	I_Error ("P_PlayerInSpecialSector: "
 		 "unknown special %i",
 		 sector->special);
 	break;
-    };
+    }
 }
 
 

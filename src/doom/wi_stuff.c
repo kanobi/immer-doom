@@ -1108,8 +1108,7 @@ void WI_initNetgameStats(void)
 	dofrags += WI_fragSum(i);
     }
 
-    dofrags = !!dofrags;
-
+    dofrags = dofrags != 0;
     WI_initAnimatedBack();
 }
 

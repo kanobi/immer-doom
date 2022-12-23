@@ -29,7 +29,6 @@
 
 #include "doomdef.h"
 #include "m_misc.h"
-#include "r_local.h"
 #include "p_local.h"
 
 #include "doomstat.h"

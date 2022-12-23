@@ -18,13 +18,10 @@
 
 #include <ctype.h>
 
-#include "doomdef.h"
 #include "doomkeys.h"
 #include "doomstat.h"
-
 #include "v_video.h"
 #include "i_swap.h"
-
 #include "hu_lib.h"
 #include "r_local.h"
 #include "r_draw.h"

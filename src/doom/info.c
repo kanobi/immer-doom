@@ -19,14 +19,11 @@
 //
 
 #include <stdio.h>
-#include <stdlib.h>
 
 // Data.
 #include "sounds.h"
 #include "m_fixed.h"
-
 #include "info.h"
-
 #include "p_mobj.h"
 
 const char *sprnames[] = {

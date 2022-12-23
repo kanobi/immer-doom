@@ -18,10 +18,6 @@
 //
 
 
-
-#include <math.h>
-#include <stdlib.h>
-
 #include "z_zone.h"
 
 #include "deh_main.h"
