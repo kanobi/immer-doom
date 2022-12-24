@@ -364,7 +364,6 @@ void D_BindVariables(void)
     for (int i=0; i<10; ++i)
     {
         char buf[12];
-
         chat_macros[i] = M_StringDuplicate(chat_macro_defaults[i]);
         M_snprintf(buf, sizeof(buf), "chatmacro%i", i);
         M_BindStringVariable(buf, &chat_macros[i]);
@@ -376,7 +375,6 @@ void D_BindVariables(void)
 //
 // Called to determine whether to grab the mouse pointer
 //
-
 boolean D_GrabMouseCallback(void)
 {
     // Drone players don't need mouse focus
@@ -1262,7 +1260,7 @@ void D_DoomMain (void)
     // print banner
     I_PrintBanner(PACKAGE_STRING);
     DEH_printf("Z_Init: Init zone memory allocation daemon. \n");
-    Z_Init ();
+    Z_Init();
 
     //!
     // @category net
@@ -1273,8 +1271,7 @@ void D_DoomMain (void)
     if (M_CheckParm("-dedicated") > 0)
     {
         printf("Dedicated server mode.\n");
-        NET_DedicatedServer();
-        // Never returns
+        NET_DedicatedServer(); // Never returns
     }
 
     //!
@@ -1396,10 +1393,6 @@ void D_DoomMain (void)
         sidemove[0] = sidemove[0]*scale/100;
         sidemove[1] = sidemove[1]*scale/100;
     }
-    
-    // init subsystems
-    DEH_printf("V_Init: allocate screens.\n");
-    V_Init ();
 
     // Load configuration files before initialising other subsystems.
     DEH_printf("M_LoadDefaults: Load system defaults.\n");
@@ -1433,22 +1426,10 @@ void D_DoomMain (void)
     InitGameVersion();
 
     // Check which IWAD variant we are using.
-
     if (W_CheckNumForName("FREEDOOM") >= 0)
-    {
-        if (W_CheckNumForName("FREEDM") >= 0)
-        {
-            gamevariant = freedm;
-        }
-        else
-        {
-            gamevariant = freedoom;
-        }
-    }
+        gamevariant = W_CheckNumForName("FREEDM") >= 0 ? freedm : freedoom;
     else if (W_CheckNumForName("DMENUPIC") >= 0)
-    {
         gamevariant = bfgedition;
-    }
 
     //!
     // @category mod
@@ -1512,7 +1493,6 @@ void D_DoomMain (void)
         char *autoload_dir;
 
         // common auto-loaded files for all Doom flavors
-
         if (gamemission < pack_chex)
         {
             autoload_dir = M_GetAutoloadDir("doom-all");
@@ -1523,7 +1503,6 @@ void D_DoomMain (void)
                 free(autoload_dir);
             }
         }
-
         // auto-loaded files per IWAD
         autoload_dir = M_GetAutoloadDir(D_SaveGameIWADName(gamemission, gamevariant));
         if (autoload_dir != NULL)
@@ -1578,34 +1557,27 @@ void D_DoomMain (void)
         // With Vanilla you have to specify the file without extension,
         // but make that optional.
         if (M_StringEndsWith(uc_filename, ".LMP"))
-        {
             M_StringCopy(file, myargv[arg_parameter + 1], sizeof(file));
-        }
         else
-        {
             DEH_snprintf(file, sizeof(file), "%s.lmp", myargv[arg_parameter+1]);
-        }
 
         free(uc_filename);
 
         if (D_AddFile(file))
-        {
-            M_StringCopy(demolumpname, lumpinfo[numlumps - 1]->name,
+            M_StringCopy(demolumpname,
+                         lumpinfo[numlumps - 1]->name,
                          sizeof(demolumpname));
-        }
         else
-        {
             // If file failed to load, still continue trying to play
             // the demo in the same way as Vanilla Doom.  This makes
             // tricks like "-playdemo demo1" possible.
             M_StringCopy(demolumpname, myargv[arg_parameter + 1], sizeof(demolumpname));
-        }
+
         printf("Playing demo %s.\n", file);
     }
 
     I_AtExit(G_CheckDemoStatusAtExit, true);
-
-    // Generate the WAD hash table.  Speed things up a bit.
+    // Generate the WAD hash table. Speed things up a bit.
     W_GenerateHashTable();
 
     // Load DEHACKED lumps from WAD files - but only if we give the right
@@ -1618,8 +1590,8 @@ void D_DoomMain (void)
     //
     if (M_ParmExists("-dehlump"))
     {
-        int i, loaded = 0;
-        for (i = numiwadlumps; i < numlumps; ++i)
+        int loaded = 0;
+        for (int i = numiwadlumps; i < numlumps; ++i)
         {
             if (!strncmp(lumpinfo[i]->name, "DEHACKED", 8))
             {
@@ -1646,16 +1618,15 @@ void D_DoomMain (void)
             "e3m1","e3m3","e3m3","e3m4","e3m5","e3m6","e3m7","e3m8","e3m9",
             "dphoof","bfgga0","heada1","cybra1","spida1d1"
         };
-        int i;
-        
-        if ( gamemode == shareware)
+
+        if (gamemode == shareware)
             I_Error(DEH_String("\nYou cannot -file with the shareware "
                                "version. Register!"));
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version. 
         if (gamemode == registered)
-            for (i = 0;i < 23; i++)
+            for (int i = 0; i < 23; i++)
                 if (W_CheckNumForName(name[i])<0)
                     I_Error(DEH_String("\nThis is not the registered version."));
     }
@@ -1742,9 +1713,7 @@ void D_DoomMain (void)
     //
     arg_parameter = M_CheckParm ("-avg");
     if (arg_parameter)
-    {
         timelimit = 20;
-    }
 
     //!
     // @category game
@@ -1761,11 +1730,7 @@ void D_DoomMain (void)
         else
         {
             startepisode = myargv[arg_parameter+1][0]-'0';
-
-            if (arg_parameter + 2 < myargc)
-                startmap = myargv[arg_parameter+2][0]-'0';
-            else
-                startmap = 1;
+            startmap = (arg_parameter + 2 < myargc) ? myargv[arg_parameter+2][0]-'0' : 1;
         }
         autostart = true;
     }
@@ -1800,27 +1765,27 @@ void D_DoomMain (void)
         startloadgame = -1; // Not loading a game
 
     DEH_printf("M_Init: Init miscellaneous info.\n");
-    M_Init ();
+    M_Init();
 
     DEH_printf("R_Init: Init DOOM refresh daemon - ");
-    R_Init ();
+    R_Init();
 
     DEH_printf("\nP_Init: Init Playloop state.\n");
-    P_Init ();
+    P_Init();
 
     DEH_printf("S_Init: Setting up sound.\n");
     S_Init (sfxVolume * 8, musicVolume * 8);
 
     DEH_printf("D_CheckNetGame: Checking network game status.\n");
-    D_CheckNetGame ();
+    D_CheckNetGame();
 
     PrintGameVersion();
 
     DEH_printf("HU_Init: Setting up heads up display.\n");
-    HU_Init ();
+    HU_Init();
 
     DEH_printf("ST_Init: Init status bar.\n");
-    ST_Init ();
+    ST_Init();
 
     // If Doom II without a MAP01 lump, this is a store demo.
     // Moved this here so that MAP01 isn't constantly looked up
@@ -1851,16 +1816,16 @@ void D_DoomMain (void)
     arg_parameter = M_CheckParmWithArgs("-playdemo", 1);
     if (arg_parameter)
     {
-        singledemo = true;  // quit after one demo
-        G_DeferedPlayDemo (demolumpname);
-        D_DoomLoop ();
+        singledemo = true; // quit after one demo
+        G_DeferedPlayDemo(demolumpname);
+        D_DoomLoop();
     }
 
     arg_parameter = M_CheckParmWithArgs("-timedemo", 1);
     if (arg_parameter)
     {
-        G_TimeDemo (demolumpname);
-        D_DoomLoop ();
+        G_TimeDemo(demolumpname);
+        D_DoomLoop();
     }
 
     if (startloadgame >= 0)
@@ -1869,13 +1834,12 @@ void D_DoomMain (void)
         G_LoadGame(file);
     }
 
-    if (gameaction != ga_loadgame )
+    if (gameaction != ga_loadgame)
     {
         if (autostart || netgame)
             G_InitNew (startskill, startepisode, startmap);
         else
-            D_StartTitle (); // start up intro loop                
+            D_StartTitle(); // start up intro loop
     }
-
     D_DoomLoop ();  // never returns
 }

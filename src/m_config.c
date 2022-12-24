@@ -2182,19 +2182,14 @@ void M_LoadDefaults (void)
     // Load main configuration from the specified file, instead of the
     // default.
     //
-
     i = M_CheckParmWithArgs("-config", 1);
-
     if (i)
     {
-	doom_defaults.filename = myargv[i+1];
-	printf ("	default file: %s\n",doom_defaults.filename);
+	    doom_defaults.filename = myargv[i+1];
+    	printf ("	default file: %s\n",doom_defaults.filename);
     }
     else
-    {
-        doom_defaults.filename
-            = M_StringJoin(configdir, default_main_config, NULL);
-    }
+        doom_defaults.filename = M_StringJoin(configdir, default_main_config, NULL);
 
     printf("saving config in %s\n", doom_defaults.filename);
 
@@ -2204,9 +2199,7 @@ void M_LoadDefaults (void)
     // Load additional configuration from the specified file, instead of
     // the default.
     //
-
     i = M_CheckParmWithArgs("-extraconfig", 1);
-
     if (i)
     {
         extra_defaults.filename = myargv[i+1];
@@ -2214,10 +2207,7 @@ void M_LoadDefaults (void)
                extra_defaults.filename);
     }
     else
-    {
-        extra_defaults.filename
-            = M_StringJoin(configdir, default_extra_config, NULL);
-    }
+        extra_defaults.filename = M_StringJoin(configdir, default_extra_config, NULL);
 
     LoadDefaultCollection(&doom_defaults);
     LoadDefaultCollection(&extra_defaults);

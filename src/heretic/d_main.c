@@ -833,14 +833,7 @@ void D_DoomMain(void)
         autostart = true;
     }
 
-//
-// init subsystems
-//
-    DEH_printf("V_Init: allocate screens.\n");
-    V_Init();
-
     // Check for -CDROM
-
     cdrom = false;
 
 #ifdef _WIN32

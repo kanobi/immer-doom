@@ -374,10 +374,6 @@ void D_DoomMain(void)
     I_PrintBanner(PACKAGE_STRING);
 
     // Initialize subsystems
-
-    ST_Message("V_Init: allocate screens.\n");
-    V_Init();
-
     // Load defaults before initing other systems
     ST_Message("M_LoadDefaults: Load system defaults.\n");
     D_BindVariables();

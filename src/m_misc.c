@@ -843,9 +843,7 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
     int result;
 
     if (buf_len < 1)
-    {
         return 0;
-    }
 
     // Windows (and other OSes?) has a vsnprintf() that doesn't always
     // append a trailing \0. So we must do it, and write into a buffer

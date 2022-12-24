@@ -55,15 +55,17 @@ static SDL_Window *screen;
 static SDL_Renderer *renderer;
 
 // Window title
-
 static const char *window_title = "";
 
-// These are (1) the 320x200x8 paletted buffer that we draw to (i.e. the one
-// that holds I_VideoBuffer), (2) the 320x200x32 RGBA intermediate buffer that
-// we blit the former buffer to, (3) the intermediate 320x200 texture that we
-// load the RGBA buffer to and that we render into another texture (4) which
-// is upscaled by an integer factor UPSCALE using "nearest" scaling and which
-// in turn is finally rendered to screen using "linear" scaling.
+// These are:
+// (1) The 320x200x8 paletted buffer that we draw to
+//     (i.e. the one that holds I_VideoBuffer),
+// (2) The 320x200x32 RGBA intermediate buffer that
+//      we blit the former buffer to,
+// (3) The intermediate 320x200 texture that we
+//      load the RGBA buffer to and that we render into another texture
+// (4) which is upscaled by an integer factor UPSCALE using "nearest" scaling and which
+//      in turn is finally rendered to screen using "linear" scaling.
 
 static SDL_Surface *screenbuffer = NULL;
 static SDL_Surface *argbbuffer = NULL;
@@ -78,10 +80,11 @@ static SDL_Rect blit_rect = {
 };
 
 static uint32_t pixel_format;
-
 // palette
 static SDL_Color palette[256];
 static boolean palette_to_set;
+// Gamma correction level to use
+int usegamma = 0;
 
 // display has been set up?
 static boolean initialized = false;
@@ -89,22 +92,26 @@ static boolean initialized = false;
 // disable mouse?
 static boolean nomouse = false;
 int usemouse = 1;
+// Grab the mouse? (int type for config code). nograbmouse_override allows
+// this to be temporarily disabled via the command line.
+static int grabmouse = true;
+static boolean nograbmouse_override = false;
+// Callback function to invoke to determine whether to grab the
+// mouse pointer.
+static grabmouse_callback_t grabmouse_callback = NULL;
+// Joystick/gamepad hysteresis
+unsigned int joywait = 0;
 
 // Save screenshots in PNG format.
 int png_screenshots = 0;
-
 // SDL video driver name
 char *video_driver = "";
-
 // Window position:
 char *window_position = "center";
-
 // SDL display number on which to run.
 int video_display = 0;
-
 // Screen width and height, from configuration file.
 int window_width = 800, window_height = 600;
-
 // Fullscreen mode, 0x0 for SDL_WINDOW_FULLSCREEN_DESKTOP.
 int fullscreen_width = 0, fullscreen_height = 0;
 
@@ -113,111 +120,77 @@ static int max_scaling_buffer_pixels = 16000000;
 
 // Run in full screen mode?  (int type for config code)
 int fullscreen = true;
-
 // Aspect ratio correction mode
 int aspect_ratio_correct = true;
 static int actualheight;
 
 // Force integer scales for resolution-independent rendering
 int integer_scaling = false;
-
 // VGA Porch palette change emulation
 int vga_porch_flash = false;
-
 // Force software rendering, for systems which lack effective hardware
 // acceleration
 int force_software_renderer = false;
 
 // Time to wait for the screen to settle on startup before starting the
 // game (ms)
-static int startup_delay = 200;
-
-// Grab the mouse? (int type for config code). nograbmouse_override allows
-// this to be temporarily disabled via the command line.
-static int grabmouse = true;
-static boolean nograbmouse_override = false;
+static int startup_delay = 10;
 
 // The screen buffer; this is modified to draw things to the screen
 pixel_t *I_VideoBuffer = NULL;
-
 // If true, game is running as a screensaver
 boolean screensaver_mode = false;
-
 // Flag indicating whether the screen is currently visible:
 // when the screen isnt visible, don't render the screen
 boolean screenvisible = true;
-
-// If true, we display dots at the bottom of the screen to 
+// If true, we display dots at the bottom of the screen to
 // indicate FPS.
 static boolean display_fps_dots;
-
 // If this is true, the screen is rendered but not blitted to the
 // video buffer.
 static boolean noblit;
-
-// Callback function to invoke to determine whether to grab the 
-// mouse pointer.
-static grabmouse_callback_t grabmouse_callback = NULL;
-
 // Does the window currently have focus?
 static boolean window_focused = true;
-
 // Window resize state.
+
 static boolean need_resize = false;
 static unsigned int last_resize_time;
 #define RESIZE_DELAY 500
-
-// Gamma correction level to use
-int usegamma = 0;
-
-// Joystick/gamepad hysteresis
-unsigned int joywait = 0;
 
 // Icon RGB data and dimensions
 static const unsigned int *icon_data;
 static int icon_w;
 static int icon_h;
 
-
 static boolean MouseShouldBeGrabbed()
 {
     // never grab the mouse when in screensaver mode
-   
     if (screensaver_mode)
         return false;
 
     // if the window doesn't have focus, never grab it
-
     if (!window_focused)
         return false;
 
     // always grab the mouse when full screen (dont want to 
     // see the mouse pointer)
-
     if (fullscreen)
         return true;
 
     // Don't grab the mouse if mouse input is disabled
-
     if (!usemouse || nomouse)
         return false;
 
     // if we specify not to grab the mouse, never grab
-
     if (nograbmouse_override || !grabmouse)
         return false;
 
     // Invoke the grabmouse callback function to determine whether
     // the mouse should be grabbed
-
     if (grabmouse_callback != NULL)
-    {
         return grabmouse_callback();
-    }
     else
-    {
         return true;
-    }
 }
 
 void I_SetGrabMouseCallback(grabmouse_callback_t func)
@@ -414,18 +387,13 @@ void I_GetEvent(void)
 void I_StartTic (void)
 {
     if (!initialized)
-    {
         return;
-    }
+
     I_GetEvent();
     if (usemouse && !nomouse && window_focused)
-    {
         I_ReadMouse();
-    }
     if (joywait < I_GetTime())
-    {
         I_UpdateJoystick();
-    }
 }
 
 
@@ -434,11 +402,9 @@ static void UpdateGrab(void)
     static boolean currently_grabbed = false;
     boolean grab;
     grab = MouseShouldBeGrabbed();
+
     if (screensaver_mode || (grab && !currently_grabbed))
-    {
-        // Hide the cursor in screensaver mode
-        SetShowCursor(false);
-    }
+        SetShowCursor(false); // Hide the cursor in screensaver mode
     else if (!grab && currently_grabbed)
     {
         int screen_w, screen_h;
@@ -503,13 +469,9 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
     while (*w_upscale * *h_upscale * SCREENWIDTH * SCREENHEIGHT > max_scaling_buffer_pixels)
     {
         if (*w_upscale > *h_upscale)
-        {
             --*w_upscale;
-        }
         else
-        {
             --*h_upscale;
-        }
     }
 
     if (*w_upscale != orig_w || *h_upscale != orig_h)
@@ -545,15 +507,9 @@ static void CreateUpscaledTexture(boolean force)
     // the actual dimensions of the rendered area.
 
     if (w * actualheight < h * SCREENWIDTH)
-    {
-        // Tall window.
-        h = w * actualheight / SCREENWIDTH;
-    }
+        h = w * actualheight / SCREENWIDTH; // Tall window.
     else
-    {
-        // Wide window.
-        w = h * SCREENWIDTH / actualheight;
-    }
+        w = h * SCREENWIDTH / actualheight; // Wide window.
 
     // Pick texture size the next integer multiple of the screen dimensions.
     // If one screen dimension matches an integer multiple of the original
@@ -563,21 +519,16 @@ static void CreateUpscaledTexture(boolean force)
 
     // Minimum texture dimensions of 320x200.
     if (w_upscale < 1)
-    {
         w_upscale = 1;
-    }
+
     if (h_upscale < 1)
-    {
         h_upscale = 1;
-    }
 
     LimitTextureSize(&w_upscale, &h_upscale);
 
     // Create a new texture only if the upscale factors have actually changed.
     if (h_upscale == h_upscale_old && w_upscale == w_upscale_old && !force)
-    {
         return;
-    }
 
     h_upscale_old = h_upscale;
     w_upscale_old = w_upscale;
@@ -597,9 +548,7 @@ static void CreateUpscaledTexture(boolean force)
     texture_upscaled = new_texture;
 
     if (old_texture != NULL)
-    {
         SDL_DestroyTexture(old_texture);
-    }
 }
 
 //
@@ -636,10 +585,7 @@ void I_FinishUpdate (void)
             need_resize = false;
             palette_to_set = true;
         }
-        else
-        {
-            return;
-        }
+        else return;
     }
 
     UpdateGrab();
@@ -659,7 +605,8 @@ void I_FinishUpdate (void)
         i = I_GetTime();
         tics = i - lasttic;
         lasttic = i;
-        if (tics > 20) tics = 20;
+        if (tics > 20)
+            tics = 20;
 
         for (i=0 ; i<tics*4 ; i+=4)
             I_VideoBuffer[ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0xff;
@@ -748,19 +695,14 @@ int I_GetPaletteIndex(int r, int g, int b)
         diff = (r - palette[i].r) * (r - palette[i].r)
              + (g - palette[i].g) * (g - palette[i].g)
              + (b - palette[i].b) * (b - palette[i].b);
-
         if (diff < best_diff)
         {
             best = i;
             best_diff = diff;
         }
-
         if (diff == 0)
-        {
             break;
-        }
     }
-
     return best;
 }
 
@@ -898,7 +840,6 @@ void I_GraphicsCheckCommandLine(void)
     // Specify the dimensions of the window. Implies -window.
     //
     i = M_CheckParmWithArgs("-geometry", 1);
-
     if (i > 0)
     {
         int w, h, s;
@@ -918,9 +859,7 @@ void I_GraphicsCheckCommandLine(void)
     // Don't scale up the screen. Implies -window.
     //
     if (M_CheckParm("-1")) 
-    {
         SetScaleFactor(1);
-    }
 
     //!
     // @category video
@@ -928,9 +867,7 @@ void I_GraphicsCheckCommandLine(void)
     // Double up the screen to 2x its normal size. Implies -window.
     //
     if (M_CheckParm("-2")) 
-    {
         SetScaleFactor(2);
-    }
 
     //!
     // @category video
@@ -938,9 +875,7 @@ void I_GraphicsCheckCommandLine(void)
     // Double up the screen to 3x its normal size. Implies -window.
     //
     if (M_CheckParm("-3")) 
-    {
         SetScaleFactor(3);
-    }
 }
 
 // Check if we have been invoked as a screensaver by xscreensaver.
@@ -949,9 +884,7 @@ void I_CheckIsScreensaver(void)
     char *env;
     env = getenv("XSCREENSAVER_WINDOW");
     if (env != NULL)
-    {
         screensaver_mode = true;
-    }
 }
 
 static void SetSDLVideoDriver(void)
@@ -1083,13 +1016,11 @@ static void SetVideoMode(void)
     if (screen == NULL)
     {
         screen = SDL_CreateWindow(NULL, x, y, w, h, window_flags);
-
         if (screen == NULL)
         {
             I_Error("Error creating window for video startup: %s",
             SDL_GetError());
         }
-
         pixel_format = SDL_GetWindowPixelFormat(screen);
         SDL_SetWindowMinimumSize(screen, SCREENWIDTH, actualheight);
         I_InitWindowTitle();
@@ -1108,9 +1039,7 @@ static void SetVideoMode(void)
 
     // Turn on vsync if we aren't in a -timedemo
     if (!singletics && mode.refresh_rate > 0)
-    {
         renderer_flags |= SDL_RENDERER_PRESENTVSYNC;
-    }
 
     if (force_software_renderer)
     {
@@ -1138,9 +1067,7 @@ static void SetVideoMode(void)
 
         // If this helped, save the setting for later.
         if (renderer != NULL)
-        {
             force_software_renderer = 1;
-        }
     }
 
     if (renderer == NULL)
@@ -1203,9 +1130,7 @@ static void SetVideoMode(void)
     }
 
     if (texture != NULL)
-    {
         SDL_DestroyTexture(texture);
-    }
 
     // Set the scaling quality for rendering the intermediate texture into
     // the upscaled texture to "nearest", which is gritty and pixelated and
@@ -1260,25 +1185,17 @@ void I_InitGraphics(void)
     SetSDLVideoDriver();
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) 
-    {
         I_Error("Failed to initialize video: %s", SDL_GetError());
-    }
 
     // When in screensaver mode, run full screen and auto detect
     // screen dimensions (don't change video mode)
     if (screensaver_mode)
-    {
         fullscreen = true;
-    }
 
-    if (aspect_ratio_correct == 1)
-    {
+    if (aspect_ratio_correct)
         actualheight = SCREENHEIGHT_4_3;
-    }
     else
-    {
         actualheight = SCREENHEIGHT;
-    }
 
     // Create the game window; this may switch graphic modes depending
     // on configuration.
@@ -1303,9 +1220,7 @@ void I_InitGraphics(void)
     // with the player unable to see anything.
 
     if (fullscreen && !screensaver_mode)
-    {
         SDL_Delay(startup_delay);
-    }
 
     // The actual 320x200 canvas that we draw to. This is the pixel buffer of
     // the 8-bit paletted screen buffer that gets blit on an intermediate

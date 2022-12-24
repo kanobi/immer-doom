@@ -563,16 +563,6 @@ void V_DrawRawScreen(pixel_t *raw)
     memcpy(dest_screen, raw, SCREENWIDTH * SCREENHEIGHT * sizeof(*dest_screen));
 }
 
-//
-// V_Init
-// 
-void V_Init (void) 
-{ 
-    // no-op!
-    // There used to be separate screens that could be drawn to; these are
-    // now handled in the upper layers.
-}
-
 // Set the buffer that the code draws to.
 void V_UseBuffer(pixel_t *buffer)
 {
@@ -590,27 +580,27 @@ void V_RestoreBuffer(void)
 //
 typedef PACKED_STRUCT (
 {
-    char                manufacturer;
-    char                version;
-    char                encoding;
-    char                bits_per_pixel;
+    char manufacturer;
+    char version;
+    char encoding;
+    char bits_per_pixel;
 
-    unsigned short      xmin;
-    unsigned short      ymin;
-    unsigned short      xmax;
-    unsigned short      ymax;
-    unsigned short      hres;
-    unsigned short      vres;
+    unsigned short xmin;
+    unsigned short ymin;
+    unsigned short xmax;
+    unsigned short ymax;
+    unsigned short hres;
+    unsigned short vres;
 
-    unsigned char       palette[48];
+    unsigned char  palette[48];
     
-    char                reserved;
-    char                color_planes;
-    unsigned short      bytes_per_line;
-    unsigned short      palette_type;
+    char           reserved;
+    char           color_planes;
+    unsigned short bytes_per_line;
+    unsigned short palette_type;
     
-    char                filler[58];
-    unsigned char       data;  // unbounded
+    char           filler[58];
+    unsigned char  data;  // unbounded
 }) pcx_t;
 
 

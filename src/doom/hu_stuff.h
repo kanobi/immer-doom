@@ -21,29 +21,23 @@
 #include "d_event.h"
 #include "v_patch.h"
 
-
 //
 // Globally visible constants.
 //
-#define HU_FONTSTART	'!'	// the first font characters
-#define HU_FONTEND	'_'	// the last font characters
+#define HU_FONTSTART '!'	// the first font characters
+#define HU_FONTEND	 '_'	// the last font characters
+#define HU_FONTSIZE	(HU_FONTEND - HU_FONTSTART + 1)	 // Calculate # of glyphs in font.
 
-// Calculate # of glyphs in font.
-#define HU_FONTSIZE	(HU_FONTEND - HU_FONTSTART + 1)	
-
-#define HU_BROADCAST	5
-
-#define HU_MSGX		0
-#define HU_MSGY		0
-#define HU_MSGWIDTH	64	// in characters
+#define HU_BROADCAST    5
+#define HU_MSGX		    0
+#define HU_MSGY		    0
+#define HU_MSGWIDTH	    64	// in characters
 #define HU_MSGHEIGHT	1	// in lines
-
 #define HU_MSGTIMEOUT	(4*TICRATE)
 
 //
 // HEADS UP TEXT
 //
-
 void HU_Init(void);
 void HU_Start(void);
 
@@ -58,9 +52,7 @@ extern const char *player_names[4];
 extern char *chat_macros[10];
 
 extern patch_t *hu_font[HU_FONTSIZE];
-
 extern boolean message_dontfuckwithme;
-
 extern boolean chat_on;
 
 

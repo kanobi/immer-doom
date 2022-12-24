@@ -415,18 +415,14 @@ void DEH_fprintf(FILE *fstream, const char *fmt, ...)
 }
 
 // snprintf(), performing a replacement on the format string.
-
 void DEH_snprintf(char *buffer, size_t len, const char *fmt, ...)
 {
     va_list args;
     const char *repl;
 
     repl = FormatStringReplacement(fmt);
-
     va_start(args, fmt);
-
     M_vsnprintf(buffer, len, repl, args);
-
     va_end(args);
 }
 

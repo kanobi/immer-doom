@@ -137,17 +137,21 @@
   <component name="ChangeListManager">
     <list default="true" id="5dfe780b-a697-4785-b4c6-29938e83b26a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/doom/m_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/m_menu.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heretic/mn_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/mn_menu.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heretic/p_inter.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/p_inter.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/heretic/p_local.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/p_local.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deh_str.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/deh_str.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/doom/d_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/d_main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/doom/hu_stuff.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/hu_stuff.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/doom/hu_stuff.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/doom/hu_stuff.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/heretic/d_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/heretic/d_main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hexen/h2_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/h2_main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hexen/h2def.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/h2def.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hexen/mn_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/mn_menu.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hexen/p_inter.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/hexen/p_inter.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i_video.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/i_video.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/m_config.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/m_config.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/setup/mode.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/setup/mode.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/m_misc.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/m_misc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/v_video.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/v_video.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/v_video.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/v_video.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/w_file.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/w_file.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/w_wad.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/w_wad.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/w_wad.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/w_wad.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/z_zone.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/z_zone.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,31 +214,31 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.advertisement.text.has.clang-format": "true",
-    "cf.advertisement.text.overridden": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "/home/robin/Documents/DoomSource/src/chocolate-doom",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "CLionExternalConfigurable",
-    "settings.editor.splitter.proportion": "0.27079567",
-    "structure.view.defaults.are.configured": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.advertisement.text.has.clang-format&quot;: &quot;true&quot;,
+    &quot;cf.advertisement.text.overridden&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/robin/Documents/DoomSource/src/chocolate-doom&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CLionExternalConfigurable&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.27079567&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Shell Script.DOOM">
     <configuration name="AUTHORS" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="DoomSource" TARGET_NAME="AUTHORS" CONFIG_NAME="AUTHORS" version="1">
       <method v="2">
@@ -816,10 +820,20 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
+    <configuration name="CONFIG" type="ShConfigurationType">
+      <option name="SCRIPT_TEXT" value="chocolate-doom-setup" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="false" />
+      <envs />
+      <method v="2" />
     </configuration>
     <configuration name="DOOM" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="chocolate-doom -iwad $PROJECT_DIR$/../DOOM.WAD" />
@@ -954,6 +968,7 @@
       <item itemvalue="Makefile Application.mostlyclean-am" />
       <item itemvalue="Makefile Application.stamp-h1" />
       <item itemvalue="Shell Script.DOOM" />
+      <item itemvalue="Shell Script.CONFIG" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -965,7 +980,8 @@
       <option name="presentableId" value="Default" />
       <updated>1671738898502</updated>
       <workItem from="1671738899925" duration="6333000" />
-      <workItem from="1671787084838" duration="35650000" />
+      <workItem from="1671787084838" duration="37625000" />
+      <workItem from="1671841636130" duration="8666000" />
     </task>
     <servers />
   </component>

@@ -45,9 +45,6 @@ typedef boolean (*vpatchclipfunc_t)(patch_t *, int, int);
 void V_SetPatchClipCallback(vpatchclipfunc_t func);
 
 
-// Allocates buffer screens, call before R_Init.
-void V_Init (void);
-
 // Draw a block from the specified source screen to the screen.
 
 void V_CopyRect(int srcx, int srcy, pixel_t *source,
